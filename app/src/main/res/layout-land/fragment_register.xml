@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/risk"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:baselineAligned="false"
+        android:gravity="center_vertical|center"
+        android:text="@string/risk"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="center_vertical|left"
+        android:text="Insira os dados do fogo"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+    <!--    LOCALIDADE-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <Spinner
+            android:id="@+id/district_spinner_landscape"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:nextFocusForward="@+id/input_county" />
+
+        <EditText
+            android:id="@+id/input_county"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:autofillHints="@string/input_county"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            android:gravity="center_vertical"
+            android:hint="@string/input_county"
+            android:imeOptions="actionNext"
+            android:inputType="textAutoCorrect"
+            android:maxLength="20" />
+
+        <EditText
+            android:id="@+id/input_parish"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:autofillHints="@string/input_parish"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            android:gravity="center_vertical"
+            android:hint="@string/input_parish"
+            android:imeOptions="actionNext"
+            android:inputType="textAutoCorrect"
+            android:maxLength="20" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
+        android:layout_weight="1.5"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/input_obs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            android:hint="@string/obs"
+            android:imeOptions="actionNext"
+            android:inputType="textAutoCorrect|textMultiLine"
+            android:maxLength="200" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="center_vertical|start"
+        android:text="@string/personal"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="6">
+        <!--user-->
+
+        <EditText
+            android:id="@+id/input_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            android:hint="@string/name"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords"
+            android:maxLength="60" />
+
+        <EditText
+            android:id="@+id/input_cc"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:hint="@string/cc"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLength="8" />
+
+        <Button
+            android:id="@+id/buttonFire"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:backgroundTint="@color/purple_500"
+            android:drawableLeft="@drawable/ic_list_add"
+            android:gravity="center_vertical|center"
+            android:imeOptions="actionDone"
+            android:text="@string/register_fire"
+            app:cornerRadius="10dp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,66 @@
+<resources>
+    <!--General-->
+    <string name="app_name">Fogos PT</string>
+    <string name="fogospt">Fogos PT</string>
+    <string name="extra">Extra</string>
+    <string name="risk">Risco</string>
+    <!--Dashboard-->
+    <string name="dashboard">Dashboard</string>
+    <string name="slide_up">Deslize para cima</string>
+    <!--Drawer-->
+    <string name="drawer_open">Aberto</string>
+    <string name="drawer_closed">Fechado</string>
+    <!--Register-->
+    <string name="register_fire">Registar Fogo</string>
+    <string name="fire_registered">Fogo Registado</string>
+    <string name="input_district">Distrito</string>
+    <string name="input_county">Concelho</string>
+    <string name="input_parish">Freguesia</string>
+    <string name="personal">Informação Pessoal</string>
+    <string name="name">Nome</string>
+    <string name="cc">Cartão de Cidadão</string>
+    <!--Errors-->
+    <string name="district_unfilled">Distrito por preencher</string>
+    <string name="county_unfilled">Concelho por preencher</string>
+    <string name="parish_unfilled">Freguesia por preencher</string>
+    <string name="name_unfilled">Nome por preencher</string>
+    <string name="cc_unfilled">CC por preencher</string>
+    <string name="cc_incomplete">CC não tem 8 números</string>
+    <!--List-->
+    <string name="fire_list">Lista de Fogos</string>
+    <string name="no_fires_available">Não há fogos para mostrar</string>
+    <string name="delete">Fogo eliminado</string>
+    <!--Fire Details-->
+    <string name="uuid">ID do Fogo</string>
+    <string name="state">Estado</string>
+    <string name="place">Localidade</string>
+    <string name="registered_at">Registado a</string>
+    <string name="obs">Observações</string>
+    <string name="resources">Recursos</string>
+    <string name="submitter">Submetido por</string>
+    <!--Extra-->
+    <string name="weather">Meteorologia</string>
+
+
+    <!--Districts we didnt do counties because there are 300+ of them-->
+    <string-array name="districts_array">
+        <item>Aveiro</item>
+        <item>Beja</item>
+        <item>Braga</item>
+        <item>Bragança</item>
+        <item>Castelo Branco</item>
+        <item>Coimbra</item>
+        <item>Évora</item>
+        <item>Faro</item>
+        <item>Guarda</item>
+        <item>Leiria</item>
+        <item>Lisboa</item>
+        <item>Portalegre</item>
+        <item>Porto</item>
+        <item>Santarém</item>
+        <item>Setúbal</item>
+        <item>Viana do Castelo</item>
+        <item>Vila Real</item>
+        <item>Viseu</item>
+    </string-array>
+</resources>

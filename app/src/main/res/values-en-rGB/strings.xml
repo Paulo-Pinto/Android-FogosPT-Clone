@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fogos PT</string>
+    <string name="fogospt">Fogos PT</string>
+    <string name="extra">Extra</string>
+    <string name="risk">Risk</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="slide_up">Swipe Up</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_closed">Closed</string>
+    <string name="register_fire">Register Fire</string>
+    <string name="fire_registered">Fire Registered</string>
+    <string name="input_district">District</string>
+    <string name="input_county">County</string>
+    <string name="state">Parish</string>
+    <string name="input_parish">Parish</string>
+    <string name="personal">Personal Info</string>
+    <string name="name">Name</string>
+    <string name="cc">Identification Number</string>
+    <string name="district_unfilled">District Unfilled</string>
+    <string name="county_unfilled">County Unfilled</string>
+    <string name="parish_unfilled">Parish Unfilled</string>
+    <string name="name_unfilled">Name Unfilled</string>
+    <string name="cc_unfilled">ID Unfilled</string>
+    <string name="cc_incomplete">ID has 9 numbers</string>
+    <string name="fire_list">List of Fires</string>
+    <string name="no_fires_available">There are no fires to show</string>
+    <string name="delete">Fire was Eliminated</string>
+    <string name="uuid">Fire\'s ID</string>
+    <string name="place">Place</string>
+    <string name="registered_at">Registered at</string>
+    <string name="obs">Observations</string>
+    <string name="resources">Resources</string>
+    <string name="submitter">Submitter</string>
+    <string name="weather">Meteorology</string>
+</resources>

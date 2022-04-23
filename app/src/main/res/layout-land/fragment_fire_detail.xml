@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="16dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/risk"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:baselineAligned="false"
+        android:gravity="center_vertical|center"
+        android:text="@string/risk"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal">
+            <!--uuid-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:baselineAligned="false"
+                android:text="@string/uuid"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fireUuid"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal">
+            <!--estado-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/state"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fireState"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal">
+            <!--place-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/place"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/firePlace"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal">
+            <!--date-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/registered_at"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fireTimestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal">
+            <!--observations-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/obs"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fireObservations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp" />
+            <!--wrap_content adapts size to content-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal">
+            <!--resources-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/resources"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fireResources"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/submitter"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/submitter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <!-- TODO : images-->
+    </LinearLayout>
+</LinearLayout>

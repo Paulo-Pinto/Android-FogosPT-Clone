@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="16dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/risk"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:baselineAligned="false"
+        android:text="@string/risk"
+        android:gravity="center_vertical|center"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--uuid-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp"
+            android:baselineAligned="false"
+            android:text="@string/uuid"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fireUuid"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp" />
+
+        <!--estado-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/state"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fireState"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp" />
+        <!--place-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/place"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/firePlace"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp" />
+        <!--date-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/registered_at"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fireTimestamp"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp" />
+        <!--observations-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/obs"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fireObservations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp" />
+        <!--wrap_content adapts size to content-->
+
+        <!--resources-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/resources"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fireResources"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/submitter"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/submitter"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+        </LinearLayout>
+        <!-- TODO : images-->
+    </LinearLayout>
+</LinearLayout>

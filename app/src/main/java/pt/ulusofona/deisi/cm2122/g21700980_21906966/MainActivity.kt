@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         if (!screenRotated(savedInstanceState)) {
-            NavigationManager.goToRegisterFireFragment(supportFragmentManager)
+            NavigationManager.goToDashboardFragment(supportFragmentManager)
         }
     }
 
@@ -49,6 +49,8 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_fogospt -> NavigationManager.goToRegisterFireFragment(supportFragmentManager)
             R.id.nav_firelist -> NavigationManager.goToFireListFragment(supportFragmentManager)
             R.id.nav_extra -> NavigationManager.goToExtraFragment(supportFragmentManager)
+            R.id.nav_dashboard -> NavigationManager.goToDashboardFragment(supportFragmentManager)
+            R.id.nav_map -> NavigationManager.goToMapFragment(supportFragmentManager)
         }
         binding.drawer.closeDrawer(GravityCompat.START)
         return true

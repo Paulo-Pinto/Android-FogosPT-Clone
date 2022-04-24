@@ -24,9 +24,13 @@ object NavigationManager {
         placeFragment(fm, FireDetailFragment.newInstance(fireui))
     }
 
-//    fun goToDashboardFragment(fm: FragmentManager) {
-//        placeFragment(fm, DashboardFragment())
-//    }
+    fun goToDashboardFragment(fm: FragmentManager) {
+        placeFragment(fm, DashboardFragment())
+    }
+
+    fun goToMapFragment(fm: FragmentManager) {
+        placeFragment(fm, MapFragment())
+    }
 
     fun goToExtraFragment(fm: FragmentManager) {
         placeFragment(fm, ExtraFragment())

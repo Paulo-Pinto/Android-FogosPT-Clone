@@ -52,12 +52,11 @@ class FireListFragment : Fragment() {
         super.onResume()
         // change risk message
         binding.risk.postDelayed(Runnable {
-            // TODO : alterar para 20 segundos = 20 * 1000
-            binding.risk.postDelayed(runnable, 2500)
+            binding.risk.postDelayed(runnable, 20000)
             val risk = risks[++ctr % risks.size]
             binding.risk.text = "Risco ${risk.first}"
             binding.risk.setTextColor(Color.parseColor(risk.second))
-        }.also { runnable = it }, 2500)
+        }.also { runnable = it }, 20000)
     }
 
     override fun onStart() {

@@ -34,10 +34,14 @@
         <entry key="..\:/FlutterProjects/2170098021906966/app/src/main/res/menu/drawer_menu.xml" value="0.26145833333333335" />
         <entry key="..\:/FlutterProjects/2170098021906966/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1125" />
         <entry key="..\:/FlutterProjects/2170098021906966/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1125" />
+        <entry key="..\:/Users/Ethys/StudioProjects/21700980-21906966/app/src/main/res/layout/fragment_dashboard.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Ethys/StudioProjects/21700980-21906966/app/src/main/res/layout/fragment_fire_list.xml" value="0.1" />
+        <entry key="..\:/Users/Ethys/StudioProjects/21700980-21906966/app/src/main/res/layout/fragment_map.xml" value="0.17073170731707318" />
+        <entry key="..\:/Users/Ethys/StudioProjects/21700980-21906966/app/src/main/res/menu/drawer_menu.xml" value="0.22135416666666666" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -65,13 +65,13 @@ class FireDetailFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        // change risk message
         binding.risk.postDelayed(Runnable {
-            // deviam ser 20 segundos mas depois não se nota
-            binding.risk.postDelayed(runnable, 2500)
+            binding.risk.postDelayed(runnable, 20000)
             val risk = risks[++ctr % risks.size]
             binding.risk.text = "Risco ${risk.first}"
             binding.risk.setTextColor(Color.parseColor(risk.second))
-        }.also { runnable = it }, 2500)
+        }.also { runnable = it }, 20000)
     }
 
     companion object {

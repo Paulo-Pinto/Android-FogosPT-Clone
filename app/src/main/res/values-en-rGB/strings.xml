@@ -33,4 +33,5 @@
     <string name="resources">Resources</string>
     <string name="submitter">Submitter</string>
     <string name="weather">Meteorology</string>
+    <string name="map">Map</string>
 </resources>

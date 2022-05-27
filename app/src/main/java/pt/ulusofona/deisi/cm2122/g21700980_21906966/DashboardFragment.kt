@@ -1,6 +1,8 @@
 package pt.ulusofona.deisi.cm2122.g21700980_21906966
 
+import android.content.Context
 import android.graphics.Color
+import android.os.BatteryManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +37,10 @@ class DashboardFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
         binding = FragmentDashboardBinding.bind(view)
+
+        val risk = risks[0]
+        binding.risk.text = "Risco ${risk.first}"
+
         return binding.root
     }
 
@@ -46,6 +52,15 @@ class DashboardFragment : Fragment() {
             val risk = risks[++ctr % risks.size]
             binding.risk.text = "Risco ${risk.first}"
             binding.risk.setTextColor(Color.parseColor(risk.second))
+
+            // pode estar depois do super.onresume()
+            // TODO : pode haver outro post delayed mais rápido, só para trocar a cor
+            val bm = requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+            val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+            if (batLevel <= 20) {
+                val gray = Color.rgb(127, 127, 127)
+                binding.risk.setTextColor(gray)
+            }
         }.also { runnable = it }, 20000)
     }
 

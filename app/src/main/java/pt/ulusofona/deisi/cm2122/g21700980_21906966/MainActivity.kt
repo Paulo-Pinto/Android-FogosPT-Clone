@@ -6,7 +6,11 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.ActivityMainBinding
+import android.Manifest
 
+import com.fondesa.kpermissions.allGranted
+import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.fondesa.kpermissions.extension.send
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,11 +18,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FusedLocation.start(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        if (!screenRotated(savedInstanceState)) {
-            NavigationManager.goToDashboardFragment(supportFragmentManager)
+
+        permissionsBuilder(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION).build().send { result ->
+            if (result.allGranted()) {
+                if (!screenRotated(savedInstanceState)) {
+                    NavigationManager.goToDashboardFragment(supportFragmentManager)
+                }
+            } else {
+                finish()
+            }
         }
+        FusedLocation.start(this)
+//        Light.start(this)
     }
 
     private fun screenRotated(savedInstanceState: Bundle?): Boolean {

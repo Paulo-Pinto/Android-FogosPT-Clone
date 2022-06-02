@@ -2,6 +2,7 @@ package pt.ulusofona.deisi.cm2122.g21700980_21906966
 
 import android.content.Context
 import android.graphics.Color
+import android.location.Geocoder
 import android.os.BatteryManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,13 +10,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.gms.maps.GoogleMap
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentDashboardBinding
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentMapBinding
+import java.util.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import java.util.*
 
-class MapFragment: Fragment()  {
+class MapFragment : Fragment(), OnLocationChangedListener {
 
     private lateinit var binding: FragmentMapBinding
 
+    // mapa
+    private lateinit var geocoder: Geocoder
+    private var map: GoogleMap? = null
+
+    // risk
     private var runnable: Runnable? = null
     private val risks = listOf(
         Pair("Reduzido", "#4d87e3"),
@@ -36,7 +48,13 @@ class MapFragment: Fragment()  {
             getString(R.string.map)
 
         val view = inflater.inflate(R.layout.fragment_map, container, false)
+        geocoder = Geocoder(context, Locale.getDefault())
         binding = FragmentMapBinding.bind(view)
+        binding.map.onCreate(savedInstanceState)
+        binding.map.getMapAsync {
+            map = it
+            FusedLocation.registerListener(this)
+        }
 
         val risk = risks[0]
         binding.risk.text = "Risco ${risk.first}"
@@ -46,6 +64,8 @@ class MapFragment: Fragment()  {
 
     override fun onResume() {
         super.onResume()
+        binding.map.onResume()
+
         // change risk message
         binding.risk.postDelayed(Runnable {
             binding.risk.postDelayed(runnable, 20000)
@@ -57,10 +77,33 @@ class MapFragment: Fragment()  {
             val bm = requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
             val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
             if (batLevel <= 20) {
-                val gray = Color.rgb(127,127,127)
+                val gray = Color.rgb(127, 127, 127)
                 binding.risk.setTextColor(gray)
             }
         }.also { runnable = it }, 20000)
     }
 
+    override fun onLocationChanged(latitude: Double, longitude: Double) {
+        placeCamera(latitude, longitude)
+        placeCityName(latitude, longitude)
+    }
+
+    private fun placeCamera(latitude: Double, longitude: Double) {
+        val cameraPosition = CameraPosition.Builder()
+            .target(LatLng(latitude, longitude))
+            .zoom(12f)
+            .build()
+        map?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+    }
+
+    private fun placeCityName(latitude: Double, longitude: Double) {
+        val addresses = geocoder.getFromLocation(latitude, longitude, 5)
+        val location = addresses.first { it.locality != null && it.locality.isNotEmpty() }
+        binding.tvCityName.text = location.locality
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        FusedLocation.unregisterListener(this)
+    }
 }

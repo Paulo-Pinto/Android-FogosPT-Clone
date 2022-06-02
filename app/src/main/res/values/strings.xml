@@ -41,6 +41,7 @@
     <string name="submitter">Submetido por</string>
     <!--Extra-->
     <string name="weather">Meteorologia</string>
+    <string name="fire_icon">Fire Icon</string>
 
 
     <!--Districts we didnt do counties because there are 300+ of them-->

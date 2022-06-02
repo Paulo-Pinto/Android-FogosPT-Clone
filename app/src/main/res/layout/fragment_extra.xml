@@ -10,36 +10,77 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:baselineAligned="false"
-        android:text="@string/risk"
         android:gravity="center_vertical|center"
+        android:text="@string/risk"
         android:textSize="30sp"
         android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
+        <ImageView
+            android:id="@+id/luso_image"
+            android:layout_width="46dp"
+            android:layout_height="49dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="@string/fire_icon"
+            android:src="@drawable/ic_fire_red" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="bottom"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginBottom="10dp"
-                android:text="@string/submitter"
-                android:textStyle="bold" />
+<!--            <TextView-->
+<!--                android:id="@+id/fire_id"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="20sp"-->
+<!--                android:textStyle="bold" />-->
 
             <TextView
-                android:id="@+id/submitter"
+                android:id="@+id/fire_id"
                 android:layout_width="match_parent"
-                android:layout_height="40dp" />
+                android:layout_height="wrap_content"
+                android:textStyle="bold"/>
+<!--            >14sp crasha (?)-->
+            <TextView
+                android:id="@+id/fire_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/fire_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp" />
 
         </LinearLayout>
-        <!-- TODO : images-->
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/submitter"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/submitter"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+    </LinearLayout>
+    <!-- TODO : images-->
 </LinearLayout>

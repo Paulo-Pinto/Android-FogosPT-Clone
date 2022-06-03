@@ -1,4 +1,4 @@
-package pt.ulusofona.deisi.cm2122.g21700980_21906966
+package pt.ulusofona.deisi.cm2122.g21700980_21906966.map
 
 import android.content.Context
 import android.graphics.Color
@@ -11,13 +11,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.GoogleMap
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentDashboardBinding
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentMapBinding
 import java.util.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import java.util.*
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
 
 class MapFragment : Fragment(), OnLocationChangedListener {
 

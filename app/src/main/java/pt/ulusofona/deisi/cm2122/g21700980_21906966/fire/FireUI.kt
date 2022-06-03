@@ -1,9 +1,8 @@
-package pt.ulusofona.deisi.cm2122.g21700980_21906966
+package pt.ulusofona.deisi.cm2122.g21700980_21906966.fire
 
 import android.os.Parcelable
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import kotlin.random.Random
 
 @Parcelize
 data class FireUI(

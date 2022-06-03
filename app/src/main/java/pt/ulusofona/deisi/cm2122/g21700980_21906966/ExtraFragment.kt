@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.os.BatteryManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.chromium.net.CronetEngine
-import org.chromium.net.UrlRequest
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Person
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentExtraBinding
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 
 private const val TAG = "Extra Fragment TAG"
 

@@ -41,11 +41,13 @@
     <string name="submitter">Submetido por</string>
     <!--Extra-->
     <string name="weather">Meteorologia</string>
-    <string name="fire_icon">Fire Icon</string>
+    <string name="fire_icon">Ícone de Fogo</string>
 
+    <string name="noRadius">Sem Raio</string>
 
-    <!--Districts we didnt do counties because there are 300+ of them-->
+    <!-- for spinner -->
     <string-array name="districts_array">
+        <item>Portugal</item>
         <item>Aveiro</item>
         <item>Beja</item>
         <item>Braga</item>

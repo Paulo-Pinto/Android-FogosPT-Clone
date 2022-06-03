@@ -34,4 +34,6 @@
     <string name="submitter">Submitter</string>
     <string name="weather">Meteorology</string>
     <string name="map">Map</string>
+    <string name="fire_icon">Fire Icon</string>
+    <string name="noRadius">No Radius</string>
 </resources>

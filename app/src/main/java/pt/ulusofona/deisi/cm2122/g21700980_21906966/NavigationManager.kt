@@ -2,6 +2,12 @@ package pt.ulusofona.deisi.cm2122.g21700980_21906966
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.dashboard.DashboardFragment
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireDetailFragment
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.list.FireListFragment
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.map.MapFragment
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.register.RegisterFireFragment
 
 object NavigationManager {
 

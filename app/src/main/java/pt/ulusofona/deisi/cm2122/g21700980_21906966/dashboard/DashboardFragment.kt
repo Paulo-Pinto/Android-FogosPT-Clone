@@ -1,4 +1,4 @@
-package pt.ulusofona.deisi.cm2122.g21700980_21906966
+package pt.ulusofona.deisi.cm2122.g21700980_21906966.dashboard
 
 import android.content.Context
 import android.graphics.Color
@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentDashboardBinding
 
 class DashboardFragment : Fragment() {

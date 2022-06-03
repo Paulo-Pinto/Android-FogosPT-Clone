@@ -1,20 +1,26 @@
-package pt.ulusofona.deisi.cm2122.g21700980_21906966
+package pt.ulusofona.deisi.cm2122.g21700980_21906966.list
 
 import android.content.Context
 import android.graphics.Color
 import android.os.BatteryManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentFireListBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.*
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentFireListBinding
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 
 class FireListFragment : Fragment() {
 
@@ -46,11 +52,35 @@ class FireListFragment : Fragment() {
         val risk = risks[0]
         binding.risk.text = "Risco ${risk.first}"
 
+        binding.districtSpinner.setOnItemSelectedListener(object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                Log.i("post delayed", "here !!!!")
+                // filter district
+                Fogospt.getFireList(
+                    {
+                        updateFireList(
+                            it
+                        )
+                    }, district = parent.selectedItem.toString(),
+                    radius = binding.radiusSlider.value.toInt()
+                )
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        })
+
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
+
         // change risk message
         binding.risk.postDelayed(Runnable {
             binding.risk.postDelayed(runnable, 20000)
@@ -62,17 +92,36 @@ class FireListFragment : Fragment() {
             val bm = requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
             val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
             if (batLevel <= 20) {
-                val gray = Color.rgb(127,127,127)
+                val gray = Color.rgb(127, 127, 127)
                 binding.risk.setTextColor(gray)
             }
-        }.also { runnable = it }, 20000)
+        }.also { runnable = it }, 0)
     }
 
     override fun onStart() {
         super.onStart()
+
+        // add districts to spinner
+        ArrayAdapter.createFromResource(
+            requireContext(), R.array.districts_array, android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.districtSpinner.adapter = adapter
+        }
+
+        binding.radiusSlider.addOnChangeListener { _, value, _ ->
+            // Responds to when slider's value is changed
+            if (value.toInt() == 0) {
+                binding.radiusText.text = getString(R.string.noRadius)
+            } else {
+                binding.radiusText.text = value.toInt().toString() + " Km"
+            }
+        }
+
         binding.firelist.layoutManager = LinearLayoutManager(context)
         binding.firelist.adapter = adapter
-        model.getFireList { updateFireList(it) }
+        Fogospt.getFireList({ updateFireList(it) })
     }
 
     private fun onFireClick(fireui: FireUI) {
@@ -81,7 +130,7 @@ class FireListFragment : Fragment() {
 
     private fun onFireLongClick(fireui: FireUI): Boolean {
         Toast.makeText(context, getString(R.string.delete), Toast.LENGTH_SHORT).show()
-        model.deleteFire(fireui.uuid) { model.getFireList { updateFireList(it) } }
+        Fogospt.deleteFire(fireui.uuid) { Fogospt.getFireList({ updateFireList(it) }) }
         return false
     }
 
@@ -114,5 +163,4 @@ class FireListFragment : Fragment() {
             binding.noFiresAvailable.visibility = View.VISIBLE
         }
     }
-
 }

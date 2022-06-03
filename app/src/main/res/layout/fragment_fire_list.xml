@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FireListFragment">
+    android:orientation="vertical"
+    android:weightSum="4"
+    tools:context=".list.FireListFragment">
 
     <TextView
         android:id="@+id/risk"
@@ -13,13 +16,73 @@
         android:gravity="center_vertical|center"
         android:text="@string/risk"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
+
+    <!-- district -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="center_vertical|start"
+            android:text="@string/input_district"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/district_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:textSize="26sp" />
+    </LinearLayout>
+
+    <!-- Continuous slider -->
+
+    <!--    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--        xmlns:tools="http://schemas.android.com/tools"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        tools:context=".FireListFragment">-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:weightSum="5">
+
+        <TextView
+            android:id="@+id/radiusText"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="center_vertical|end"
+            android:text="@string/noRadius"
+            android:textSize="16sp" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/radiusSlider"
+            android:layout_width="200sp"
+            android:layout_height="match_parent"
+            android:valueFrom="0"
+            android:valueTo="150"
+            android:stepSize="5"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="50dp"
         android:id="@+id/firelist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:visibility="gone"
         tools:listitem="@layout/list_item_fire" />
 
@@ -31,5 +94,5 @@
         android:text="@string/no_fires_available"
         android:textSize="18sp"
         android:textStyle="bold" />
-
-</FrameLayout>
+    <!--    </FrameLayout>-->
+</LinearLayout>

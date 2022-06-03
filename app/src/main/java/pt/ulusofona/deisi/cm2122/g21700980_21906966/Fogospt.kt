@@ -1,8 +1,11 @@
 package pt.ulusofona.deisi.cm2122.g21700980_21906966
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Person
 import kotlin.random.Random
 
 object Fogospt {
@@ -67,10 +70,32 @@ object Fogospt {
         }
     }
 
-    fun getFireList(onFinished: (List<Fire>) -> Unit) {
+    fun getFireList(
+        onFinished: (List<Fire>) -> Unit,
+        district: String = "Portugal",
+        radius: Int = 0,
+    ) {
         CoroutineScope(Dispatchers.IO).launch {
-//            Thread.sleep(10 * 1000)
-            onFinished(fireList.toList())
+            Log.i("asdkopasdko", "Aboubakar $district $radius")
+            Log.i("asdkopasdko", "$fireList")
+            // normal
+            if (district == "Portugal" && radius == 0) {
+                Log.i("asdkopasdko", "ENTROU!!")
+                onFinished(fireList.toList())
+            } else {
+
+            val filteredList = mutableListOf<Fire>()
+
+            for (fire in fireList) {
+                // calc distance
+                // && dist < radius
+                if (fire.district == district) {
+                    filteredList.add(fire)
+                }
+            }
+
+            onFinished(filteredList.toList())
+        }
         }
     }
 

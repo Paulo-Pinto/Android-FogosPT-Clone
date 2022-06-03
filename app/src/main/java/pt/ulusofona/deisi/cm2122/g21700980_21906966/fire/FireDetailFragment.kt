@@ -1,6 +1,5 @@
-package pt.ulusofona.deisi.cm2122.g21700980_21906966
+package pt.ulusofona.deisi.cm2122.g21700980_21906966.fire
 
-import android.content.Context
 import android.content.Context.BATTERY_SERVICE
 import android.graphics.Color
 import android.os.BatteryManager
@@ -10,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentFireDetailBinding
 import java.text.SimpleDateFormat
 

@@ -1,4 +1,4 @@
-package pt.ulusofona.deisi.cm2122.g21700980_21906966
+package pt.ulusofona.deisi.cm2122.g21700980_21906966.register
 
 import android.content.Context
 import android.content.res.Configuration
@@ -11,13 +11,16 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentRegisterBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Person
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 
 class RegisterFireFragment : Fragment() {
 

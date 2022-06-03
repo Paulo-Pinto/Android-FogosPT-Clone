@@ -1,7 +1,6 @@
-package pt.ulusofona.deisi.cm2122.g21700980_21906966
+package pt.ulusofona.deisi.cm2122.g21700980_21906966.fire
 
 import java.util.*
-import kotlin.random.Random
 
 data class Fire(
     val uuid: String = UUID.randomUUID().toString(),

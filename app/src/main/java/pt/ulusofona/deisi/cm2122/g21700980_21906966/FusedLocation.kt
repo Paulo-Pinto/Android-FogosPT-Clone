@@ -11,8 +11,8 @@ class FusedLocation private constructor(context: Context) : LocationCallback() {
 
     private val TAG = FusedLocation::class.java.simpleName
 
-    // Intervalos de tempo em que a localização é verificada, 20 segundos
-    private val TIME_BETWEEN_UPDATES = 20 * 1000L
+    // Intervalos de tempo em que a localização é verificada, 5 segundos
+    private val TIME_BETWEEN_UPDATES = 5 * 1000L
 
     // Configurar a precisão e os tempos entre atualizações da localização
     private var locationRequest = LocationRequest.create().apply {
@@ -33,7 +33,7 @@ class FusedLocation private constructor(context: Context) : LocationCallback() {
         LocationServices.getSettingsClient(context)
             .checkLocationSettings(locationSettingsRequest)
 
-//        client.requestLocationUpdates(locationRequest, this, Looper.myLooper())
+        client.requestLocationUpdates(locationRequest, this, Looper.getMainLooper())
     }
 
     override fun onLocationResult(locationResult: LocationResult) {
@@ -65,7 +65,6 @@ class FusedLocation private constructor(context: Context) : LocationCallback() {
             instance = if (instance == null) FusedLocation(context) else instance
         }
     }
-
 }
 
 interface OnLocationChangedListener {

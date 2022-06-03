@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentRegisterBinding
@@ -95,9 +96,9 @@ class RegisterFireFragment : Fragment() {
     }
 
     private fun updateAttributes(): Boolean {
-        val red = Color.parseColor("#DA291C")
-        val orange = Color.parseColor("#F2B06D")
-        val black = Color.parseColor("#000000")
+        val red = R.color.red;
+        val orange = R.color.orange_warning;
+        val black = R.color.black;
         // location
         val orientation = resources.configuration.orientation
 

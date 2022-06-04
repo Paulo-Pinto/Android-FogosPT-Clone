@@ -74,8 +74,8 @@
             android:layout_width="200sp"
             android:layout_height="match_parent"
             android:valueFrom="0"
-            android:valueTo="150"
-            android:stepSize="5"/>
+            android:valueTo="300"
+            android:stepSize="50"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

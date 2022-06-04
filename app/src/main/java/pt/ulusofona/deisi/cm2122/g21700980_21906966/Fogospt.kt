@@ -84,18 +84,18 @@ object Fogospt {
                 onFinished(fireList.toList())
             } else {
 
-            val filteredList = mutableListOf<Fire>()
+                val filteredList = mutableListOf<Fire>()
 
-            for (fire in fireList) {
-                // calc distance
-                // && dist < radius
-                if (fire.district == district) {
-                    filteredList.add(fire)
+                for (fire in fireList) {
+                    // calc distance
+                    // && dist < radius
+                    if (fire.district == district) {
+                        filteredList.add(fire)
+                    }
                 }
-            }
 
-            onFinished(filteredList.toList())
-        }
+                onFinished(filteredList.toList())
+            }
         }
     }
 

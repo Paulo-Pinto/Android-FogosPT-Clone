@@ -11,6 +11,11 @@ import android.Manifest
 import com.fondesa.kpermissions.allGranted
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.extension.send
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.connectivity.RetrofitBuilder
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FireDatabase
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRepository
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRetrofit
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRoom
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.map.FusedLocation
 
 class MainActivity : AppCompatActivity() {

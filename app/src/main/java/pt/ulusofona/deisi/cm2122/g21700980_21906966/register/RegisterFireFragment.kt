@@ -17,7 +17,7 @@ import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentRegister
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.FogosViewModel
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosViewModel
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Person
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
@@ -99,9 +99,9 @@ class RegisterFireFragment : Fragment() {
     }
 
     private fun updateAttributes(): Boolean {
-        val red = R.color.red;
-        val orange = R.color.orange_warning;
-        val black = R.color.black;
+        val red = R.color.red
+        val orange = R.color.orange_warning
+        val black = R.color.black
         // location
         val orientation = resources.configuration.orientation
 
@@ -210,3 +210,5 @@ class RegisterFireFragment : Fragment() {
     }
 
 }
+
+// TODO : Register não adiciona à base de dados

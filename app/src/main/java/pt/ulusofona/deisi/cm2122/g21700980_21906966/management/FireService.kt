@@ -1,4 +1,4 @@
-package pt.ulusofona.deisi.cm2122.g21700980_21906966
+package pt.ulusofona.deisi.cm2122.g21700980_21906966.management
 
 import retrofit2.http.*
 

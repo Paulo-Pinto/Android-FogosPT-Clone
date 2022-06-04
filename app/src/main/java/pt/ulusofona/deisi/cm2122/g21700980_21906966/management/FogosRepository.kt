@@ -1,4 +1,4 @@
-package pt.ulusofona.deisi.cm2122.g21700980_21906966
+package pt.ulusofona.deisi.cm2122.g21700980_21906966.management
 
 import android.content.Context
 import kotlinx.coroutines.CoroutineScope
@@ -8,7 +8,6 @@ import pt.ulusofona.deisi.cm2122.g21700980_21906966.connectivity.ConnectivityUti
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Person
-import java.util.*
 import kotlin.random.Random
 
 class FogosRepository private constructor(

@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.*
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentFireListBinding
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRepository
 
 class FireListFragment : Fragment() {
 

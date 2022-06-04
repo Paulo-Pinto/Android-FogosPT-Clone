@@ -58,7 +58,7 @@ class FireDetailFragment : Fragment() {
         val sdf = SimpleDateFormat("dd/MM/yyyy - HH:mm:ss")
         fire?.let {
             binding.fireUuid.text = it.uuid
-            binding.fireState.text = it.state
+            binding.fireState.text = it.status
             binding.firePlace.text = it.place
             binding.fireTimestamp.text = sdf.format(it.timestamp)
             binding.fireObservations.text = it.obs

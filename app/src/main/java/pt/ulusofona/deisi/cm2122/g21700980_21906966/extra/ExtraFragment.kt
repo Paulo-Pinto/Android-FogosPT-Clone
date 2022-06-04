@@ -70,7 +70,7 @@ class ExtraFragment : Fragment() {
             for (l in list) {
                 binding.fireId.text = l.uuid
                 binding.firePlace.text = l.district + l.county
-                binding.fireState.text = l.state
+                binding.fireState.text = l.status
             }
         }
 
@@ -125,8 +125,8 @@ class ExtraFragment : Fragment() {
                         county = " -- ",
                         parish = it.result.toString(),
                         obs = it.timestamp.toString(),
-                        state = it.timestamp.toString(),
-                        submitter = Person("api", "0000"),
+                        status = it.timestamp.toString(),
+                        submitter_cc = "1234",
                     )
                 })
             }

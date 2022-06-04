@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.os.BatteryManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,12 +18,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.*
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentFireListBinding
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 
 class FireListFragment : Fragment() {
 
-    private val model = Fogospt
+    private val model = FogosRepository.getInstance()
     private var adapter =
         FireListAdapter(onClick = ::onFireClick, onLongClick = ::onFireLongClick)
     private lateinit var binding: FragmentFireListBinding
@@ -60,9 +58,8 @@ class FireListFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                Log.i("post delayed", "here !!!!")
                 // filter district
-                Fogospt.getFireList(
+                model.getFireList(
                     {
                         updateFireList(
                             it
@@ -121,7 +118,7 @@ class FireListFragment : Fragment() {
 
         binding.firelist.layoutManager = LinearLayoutManager(context)
         binding.firelist.adapter = adapter
-        Fogospt.getFireList({ updateFireList(it) })
+        model.getFireList({ updateFireList(it) }, binding.districtSpinner.selectedItem.toString())
     }
 
     private fun onFireClick(fireui: FireUI) {
@@ -130,11 +127,15 @@ class FireListFragment : Fragment() {
 
     private fun onFireLongClick(fireui: FireUI): Boolean {
         Toast.makeText(context, getString(R.string.delete), Toast.LENGTH_SHORT).show()
-        Fogospt.deleteFire(fireui.uuid) { Fogospt.getFireList({ updateFireList(it) }) }
+        model.deleteFire(fireui.uuid) { model.getFireList(
+            { updateFireList(it) },
+            binding.districtSpinner.selectedItem.toString()
+        )
+        }
         return false
     }
 
-    private fun updateFireList(fires: List<Fire>) {
+    private fun updateFireList(fires: List<FireUI>) {
         val fireList = fires.map {
             FireUI(
                 it.uuid,
@@ -143,9 +144,9 @@ class FireListFragment : Fragment() {
                 it.county,
                 it.parish,
                 it.obs,
+                it.status,
                 it.submitter.getName(),
-                it.submitter.getCc(),
-                it.state
+                it.submitter.getCc()
             )
         }
         CoroutineScope(Dispatchers.Main).launch {

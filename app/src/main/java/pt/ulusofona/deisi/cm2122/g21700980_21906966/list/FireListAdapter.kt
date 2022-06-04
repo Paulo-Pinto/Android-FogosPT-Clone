@@ -27,7 +27,7 @@ class FireListAdapter(
     override fun onBindViewHolder(holder: FireListViewHolder, position: Int) {
         val item = items[position]
         holder.binding.fireId.text = "Fogo em ${item.parish} [${item.uuid.take(8)}]"
-        holder.binding.fireState.text = "Estado: ${item.state}"
+        holder.binding.fireState.text = "Estado: ${item.status}"
         holder.binding.firePlace.text = item.place
         holder.itemView.setOnClickListener { onClick(item) }
         holder.itemView.setOnLongClickListener { onLongClick(item) }

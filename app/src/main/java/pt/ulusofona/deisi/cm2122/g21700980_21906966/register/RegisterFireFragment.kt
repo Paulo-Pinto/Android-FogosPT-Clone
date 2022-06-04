@@ -17,15 +17,15 @@ import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentRegister
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.FogosViewModel
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Person
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 
 class RegisterFireFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
-    private lateinit var viewModel: RegisterFireViewModel
+    private lateinit var viewModel: FogosViewModel
 
     // TODO : risco devia ser fragment para não ser tanto hassle
     private var runnable: Runnable? = null
@@ -47,7 +47,7 @@ class RegisterFireFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
             getString(R.string.register_fire)
         val view = inflater.inflate(R.layout.fragment_register, container, false)
-        viewModel = ViewModelProvider(this)[RegisterFireViewModel::class.java]
+        viewModel = ViewModelProvider(this)[FogosViewModel::class.java]
         binding = FragmentRegisterBinding.bind(view)
 
         val risk = risks[0]
@@ -192,7 +192,7 @@ class RegisterFireFragment : Fragment() {
 
     }
 
-    private fun updateFireList(fires: List<Fire>) {
+    private fun updateFireList(fires: List<FireUI>) {
 
         fires.map {
             FireUI(
@@ -202,7 +202,7 @@ class RegisterFireFragment : Fragment() {
                 it.county,
                 it.parish,
                 it.obs,
-                it.state,
+                it.status,
                 it.submitter.getName(),
                 it.submitter.getCc(),
             )

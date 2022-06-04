@@ -34,8 +34,12 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }
-        FusedLocation.start(this)
 //        Light.start(this)
+
+        FogosRepository.init(this,
+            FogosRoom(FireDatabase.getInstance(this).fogosDao()),
+            FogosRetrofit(RetrofitBuilder.getInstance("https://api.fogos.pt/"))
+        )
     }
 
     private fun screenRotated(savedInstanceState: Bundle?): Boolean {

@@ -113,7 +113,7 @@ class MapFragment : Fragment(), OnLocationChangedListener {
     private fun placeCamera(latitude: Double, longitude: Double) {
         val cameraPosition = CameraPosition.Builder()
             .target(LatLng(latitude, longitude))
-            .zoom(9f)
+            .zoom(10f)
             .build()
         map?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }

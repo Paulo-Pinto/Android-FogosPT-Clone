@@ -13,7 +13,6 @@ class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
 
     private val TAG = FogosRetrofit::class.java.simpleName
     private val service = retrofit.create(FireService::class.java)
-    private var usedIds = mutableListOf<String>()
 
     override fun insertFires(fires: List<FireUI>, onFinished: (List<FireUI>) -> Unit) {
         throw Exception("Not implemented on web service")
@@ -28,8 +27,6 @@ class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
     }
 
     override fun getFireList(onFinished: (List<FireUI>) -> Unit, district: String, radius: Int) {
-        Log.i("retrofit", "GetFireList")
-
         CoroutineScope(Dispatchers.IO).launch {
             try {
 //                if(district != "Portugal") {

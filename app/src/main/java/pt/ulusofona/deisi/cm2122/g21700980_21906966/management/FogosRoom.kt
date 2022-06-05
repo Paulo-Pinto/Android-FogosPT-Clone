@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 
+// LOCAL
 class FogosRoom(private val dao: FogosDao) : Fogospt() {
 
     override fun addToFireList(fire: Fire, onFinished: () -> Unit) {
@@ -61,8 +62,7 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
         }
     }
 
-    override fun deleteAPIFires(onFinished: () -> Unit)
-    {
+    override fun deleteAPIFires(onFinished: () -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             dao.deleteAllFromAPI()
             onFinished()
@@ -72,7 +72,13 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
     override fun getFireList(onFinished: (List<FireUI>) -> Unit, district: String, radius: Int) {
         CoroutineScope(Dispatchers.IO).launch {
 //             TODO : if district == portugal get all else get district
-            val fires = dao.getAll()
+
+            val fires: List<Fire> = if (district == "Portugal") {
+                dao.getAll() // país inteiro
+            } else {
+                dao.getAllByDistrict(district) // distrito
+            }
+
             onFinished(fires.map {
                 FireUI(
                     it.api,

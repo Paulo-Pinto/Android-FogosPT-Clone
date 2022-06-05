@@ -22,7 +22,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/luso_image"
+            android:id="@+id/fire_icon"
             android:layout_width="46dp"
             android:layout_height="49dp"
             android:layout_gravity="center_vertical"

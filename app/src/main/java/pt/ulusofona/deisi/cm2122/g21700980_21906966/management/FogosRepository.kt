@@ -78,21 +78,17 @@ class FogosRepository private constructor(
         district: String = "Portugal",
         radius: Int = 999
     ) {
-        local.getFireList(onFinished)
+        // apaga fogos provenientes da api
+        local.deleteAPIFires {}
 
         if (ConnectivityUtil.isOnline(context)) {
-
-            local.deleteAPIFires {}
-
             remote.getFireList({ fireList ->
                 local.insertFires(fireList) {
-                    local.getFireList(onFinished)
-//                        onFinished(fireList)
+                    local.getFireList(onFinished, district)
                 }
             }, district, radius)
-
         } else {
-            local.getFireList(onFinished)
+            local.getFireList(onFinished, district)
         }
     }
 

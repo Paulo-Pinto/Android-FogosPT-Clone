@@ -73,9 +73,9 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
     override fun getFireList(onFinished: (List<FireUI>) -> Unit, district: String, radius: Int, coordinates : Pair<Double, Double>) {
         CoroutineScope(Dispatchers.IO).launch {
             val fires: List<Fire> = if (district == "Portugal") {
-                dao.getAll() // país inteiro
+                dao.getAll(radius) // país inteiro
             } else {
-                dao.getAllByDistrict(district) // distrito
+                dao.getAllByDistrict(district, radius) // distrito
             }
 
             onFinished(fires.map {

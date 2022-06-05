@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 
 @Dao
 interface FogosDao {
@@ -15,11 +14,14 @@ interface FogosDao {
     @Insert
     suspend fun insertAll(fires: List<Fire>)
 
-    @Query("SELECT * FROM fire ORDER BY timestamp ASC")
-    suspend fun getAll(): List<Fire>
+    @Query("SELECT * FROM fire WHERE distance < :r ORDER BY timestamp ASC")
+    suspend fun getAll(r: Int): List<Fire>
 
-    @Query("SELECT * FROM fire WHERE district = :d ORDER BY timestamp ASC")
-    suspend fun getAllByDistrict(d : String): List<Fire>
+    @Query("SELECT * FROM fire WHERE district = :d and distance < :r  ORDER BY timestamp ASC")
+    suspend fun getAllByDistrict(d: String, r: Int): List<Fire>
+
+    @Query("SELECT * FROM fire WHERE distance < :r ORDER BY timestamp ASC")
+    suspend fun getAllByRadius(r: Int): List<Fire>
 
 //    @Query("SELECT * FROM fire WHERE distance < r ORDER BY timestamp ASC")
 //    suspend fun getAllWithRadius(r : Int): List<FireRoom>

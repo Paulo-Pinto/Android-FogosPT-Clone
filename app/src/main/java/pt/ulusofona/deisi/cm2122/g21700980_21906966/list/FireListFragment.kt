@@ -125,6 +125,7 @@ class FireListFragment : Fragment(), OnLocationChangedListener {
             } else {
                 binding.radiusText.text = value.toInt().toString() + " Km"
             }
+            setFires()
         }
 
         binding.firelist.layoutManager = LinearLayoutManager(context)
@@ -137,7 +138,7 @@ class FireListFragment : Fragment(), OnLocationChangedListener {
         repo.getFireList(
             { updateFireList(it) },
             district = binding.districtSpinner.selectedItem.toString(),
-            radius = binding.radiusSlider.value.toInt(),
+            if(binding.radiusSlider.value.toInt() != 0) binding.radiusSlider.value.toInt() else 999,
             coordinates = Pair(lat, lng)
         )
     }

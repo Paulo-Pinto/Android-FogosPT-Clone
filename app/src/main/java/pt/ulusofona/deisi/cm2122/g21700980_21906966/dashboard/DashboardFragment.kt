@@ -44,44 +44,17 @@ class DashboardFragment : Fragment() {
         return binding.root
     }
 
-    private fun setWeather(onFinished: (Pair<String, String>) -> Unit) {
-        data class WeatherResponse(
-            val current_weather: HashMap<String, String>,
-        )
-
-        var temp: String = "qweqwe"
-        var wind: String = "qweqwe"
-        CoroutineScope(Dispatchers.Default).launch {
-            val request: Request = Request.Builder()
-                .url("https://api.open-meteo.com/v1/forecast?latitude=38.7072&longitude=-9.1355&hourly=apparent_temperature&current_weather=true")
-                .build()
-
-            val response = OkHttpClient().newCall(request).execute()
-
-            val responseobj =
-                Gson().fromJson(response.body!!.string(), WeatherResponse::class.java)
-
-
-//            val responseobj = Gson().toJson(response.toString())
-            temp = responseobj.current_weather["temperature"].toString() + "ºC"
-            wind = responseobj.current_weather["windspeed"].toString() + "Km/h"
-            onFinished(Pair(temp, wind))
-        }
-//        onFinished(Pair(temp, wind))
-    }
-
     override fun onResume() {
         super.onResume()
+
         // change risk message
-
-//        setWeather { binding.weather.text = it.first; binding.weather.text = it.second; }
-
-//        Log.i("INFOOO", info.first
-
-//        binding.weather.text = info.first
-//        binding.wind.text = info.second
-
         updateRisk()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // vamos buscar temp e wind,, mas mudar os dois crasha . ..
+        setWeather { binding.weather.text = it }
     }
 
     // RISK
@@ -113,4 +86,28 @@ class DashboardFragment : Fragment() {
 
         }.also { runnable = it }, 0)
     }
+
+    // WEATHER
+    private fun setWeather(callback: (String) -> Unit) {
+        data class WeatherResponse(
+            val current_weather: HashMap<String, String>,
+        )
+        CoroutineScope(Dispatchers.Default).launch {
+            val request: Request = Request.Builder()
+                .url("https://api.open-meteo.com/v1/forecast?latitude=38.7072&longitude=-9.1355&hourly=apparent_temperature&current_weather=true")
+                .build()
+
+            val response = OkHttpClient().newCall(request).execute()
+            if (response != null) {
+
+                val responseobj =
+                    Gson().fromJson(response.body!!.string(), WeatherResponse::class.java)
+
+                var temp = responseobj.current_weather["temperature"].toString() + "ºC"
+                var wind = responseobj.current_weather["windspeed"].toString() + "Km/h"
+                callback(temp)
+            }
+        }
+    }
+
 }

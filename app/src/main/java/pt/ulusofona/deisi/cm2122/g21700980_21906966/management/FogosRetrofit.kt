@@ -6,8 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.map.FusedLocation
-import retrofit2.*
+import retrofit2.HttpException
+import retrofit2.Retrofit
 
 class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
 
@@ -101,9 +101,9 @@ class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
 
     override fun getRisk(onFinished: (String) -> Unit, district: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val risk = service.getRisk(district).data.split(",")[0].split("-")[1].trim()
-            Log.i("GotRisk", " $risk for $district")
-            onFinished(risk)
+            val riskCleaned = service.getRisk(district).data.split(",")[0].split("-")[1].trim()
+            Log.i("GotRisk", " $riskCleaned for $district")
+            onFinished(riskCleaned)
         }
     }
 }

@@ -72,6 +72,61 @@ class MapFragment : Fragment(), OnLocationChangedListener {
         Handler(Looper.getMainLooper()).postDelayed({ drawFireOnMap() }, 1000)
     }
 
+    // RISK
+    fun updateRisk() {
+        // change risk message
+        binding.risk.postDelayed(Runnable {
+            binding.risk.postDelayed(runnable, 5000)
+            binding.risk.text = repo.getRisk(district)
+
+            Log.i("RISCO", binding.risk.text.toString())
+            // mudar cor
+            val bm = requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+            val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+            if (batLevel <= 20) {
+                val gray = Color.rgb(127, 127, 127)
+                binding.risk.setTextColor(gray)
+            } else {
+                var cor = when (binding.risk.text) {
+                    "Reduzido" -> "#4d87e3"
+                    "Moderado" -> "#46a112"
+                    "Elevado" -> "#f7dd72"
+                    "Muito Elevado" -> "#e34814"
+                    "Máximo" -> "#da291c"
+                    else -> "#46a112"
+                }
+
+                binding.risk.setTextColor(Color.parseColor(cor))
+            }
+
+        }.also { runnable = it }, 0)
+    }
+
+    // LOCATION
+    override fun onLocationChanged(latitude: Double, longitude: Double) {
+        placeCityName(latitude, longitude)
+        Handler(Looper.getMainLooper()).postDelayed({
+            placeCamera(latitude, longitude)
+        }, 2000)
+    }
+
+    private fun placeCamera(latitude: Double, longitude: Double) {
+        val cameraPosition = CameraPosition.Builder()
+            .target(LatLng(latitude, longitude))
+            .zoom(9f)
+            .build()
+        map?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+    }
+
+    private fun placeCityName(latitude: Double, longitude: Double): String {
+        val addresses = geocoder.getFromLocation(latitude, longitude, 5)
+        val location = addresses.first { it.adminArea != null && it.adminArea.isNotEmpty() }
+        binding.tvCityName.text = location.adminArea
+        district = location.adminArea.split(" ")[0]
+        return location.adminArea
+    }
+
+    // ICONS
     private fun onFireClick(fireui: FireUI) {
         NavigationManager.goToFireDetailFragment(parentFragmentManager, fireui)
     }
@@ -80,6 +135,7 @@ class MapFragment : Fragment(), OnLocationChangedListener {
         return false
     }
 
+    // TODO : get local fires
     private fun updateFireList(fires: List<FireUI>) {
         val fireList = fires.map {
             FireUI(
@@ -110,8 +166,8 @@ class MapFragment : Fragment(), OnLocationChangedListener {
         }
     }
 
-    private fun drawMarker(latitude: Double, longitude: Double, tittle: String) : Marker? {
-        if (this.map != null){
+    private fun drawMarker(latitude: Double, longitude: Double, tittle: String): Marker? {
+        if (this.map != null) {
             val latLng = LatLng(latitude, longitude)
             val markerOptions = MarkerOptions()
             markerOptions.position(latLng)
@@ -123,69 +179,19 @@ class MapFragment : Fragment(), OnLocationChangedListener {
         return null
     }
 
-    private fun onMarkerClick(fireui: FireUI): Boolean{
+    private fun onMarkerClick(fireui: FireUI): Boolean {
         NavigationManager.goToFireDetailFragment(parentFragmentManager, fireui)
         return false
     }
 
     private fun drawFireOnMap() {
-        for (fire in adapter.getItems()){
+        for (fire in adapter.getItems()) {
             val marker = drawMarker(fire.lat, fire.lng, fire.uuid)
 
             map?.setOnMarkerClickListener {
                 onMarkerClick(fire)
             }
         }
-    }
-
-    fun updateRisk() {
-        // change risk message
-        binding.risk.postDelayed(Runnable {
-            binding.risk.postDelayed(runnable, 0)
-            binding.risk.text = repo.getRisk(district)
-
-            Log.i("RISCO", binding.risk.text.toString())
-            // mudar cor
-            val bm = requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-            val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
-            if (batLevel <= 20) {
-                val gray = Color.rgb(127, 127, 127)
-                binding.risk.setTextColor(gray)
-            } else {
-                var cor = when (binding.risk.text) {
-                    "Reduzido" -> "#4d87e3"
-                    "Moderado" -> "#46a112"
-                    "Elevado" -> "#f7dd72"
-                    "Muito Elevado" -> "#e34814"
-                    "Máximo" -> "#da291c"
-                    else -> "#46a112"
-                }
-
-                binding.risk.setTextColor(Color.parseColor(cor))
-            }
-
-        }.also { runnable = it }, 2000)
-    }
-
-    override fun onLocationChanged(latitude: Double, longitude: Double) {
-        placeCamera(latitude, longitude)
-        placeCityName(latitude, longitude)
-    }
-
-    private fun placeCamera(latitude: Double, longitude: Double) {
-        val cameraPosition = CameraPosition.Builder()
-            .target(LatLng(latitude, longitude))
-            .zoom(9f)
-            .build()
-        map?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-    }
-
-    private fun placeCityName(latitude: Double, longitude: Double): String {
-        val addresses = geocoder.getFromLocation(latitude, longitude, 5)
-        val location = addresses.first { it.adminArea != null && it.adminArea.isNotEmpty() }
-        binding.tvCityName.text = location.adminArea
-        district = location.adminArea.split(" ")[0]
-        return location.adminArea
     }
 
     override fun onDestroy() {

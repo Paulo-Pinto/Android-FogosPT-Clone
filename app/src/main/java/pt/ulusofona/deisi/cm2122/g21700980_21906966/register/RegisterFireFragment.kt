@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.BatteryManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,31 +14,24 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentRegisterBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosViewModel
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Person
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentRegisterBinding
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.map.FusedLocation
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Person
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRepository
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosViewModel
 
 class RegisterFireFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var viewModel: FogosViewModel
+    private val repo = FogosRepository.getInstance()
 
     // TODO : risco devia ser fragment para não ser tanto hassle
     private var runnable: Runnable? = null
-    private var ctr = 0
-    private val risks = listOf(
-        Pair("Reduzido", "#4d87e3"),
-        Pair("Moderado", "#46a112"),
-        Pair("Elevado", "#f7dd72"),
-        Pair("Muito Elevado", "#e34814"),
-        Pair("Máximo", "#da291c"),
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,9 +44,6 @@ class RegisterFireFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_register, container, false)
         viewModel = ViewModelProvider(this)[FogosViewModel::class.java]
         binding = FragmentRegisterBinding.bind(view)
-
-        val risk = risks[0]
-        binding.risk.text = "Risco ${risk.first}"
 
         return binding.root
     }
@@ -79,23 +70,37 @@ class RegisterFireFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        updateRisk()
+    }
 
+    // RISK
+    private fun updateRisk() {
         // change risk message
         binding.risk.postDelayed(Runnable {
-            // TODO : alterar para 20 segundos = 20 * 1000
-            binding.risk.postDelayed(runnable, 2500)
-            val risk = risks[++ctr % risks.size]
-            binding.risk.text = "Risco ${risk.first}"
-            binding.risk.setTextColor(Color.parseColor(risk.second))
+            binding.risk.postDelayed(runnable, 5000) // intervalo
+            binding.risk.text = repo.getRisk()
 
-            // pode estar depois do super.onresume()
+            Log.i("RISCO", binding.risk.text.toString())
+            // mudar cor
             val bm = requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
             val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
             if (batLevel <= 20) {
                 val gray = Color.rgb(127, 127, 127)
                 binding.risk.setTextColor(gray)
+            } else {
+                var cor = when (binding.risk.text) {
+                    "Reduzido" -> "#4d87e3"
+                    "Moderado" -> "#46a112"
+                    "Elevado" -> "#f7dd72"
+                    "Muito Elevado" -> "#e34814"
+                    "Máximo" -> "#da291c"
+                    else -> "#46a112"
+                }
+
+                binding.risk.setTextColor(Color.parseColor(cor))
             }
-        }.also { runnable = it }, 2500)
+
+        }.also { runnable = it }, 0) // tempo que demora a começar
     }
 
     private fun updateAttributes(): Boolean {
@@ -156,13 +161,8 @@ class RegisterFireFragment : Fragment() {
         binding.inputCc.background.setTint(black)
 
         viewModel.setSubmitter(Person(name, cc))
-
-        //obs
         viewModel.setObservations((binding.inputObs.text.toString()))
-
         viewModel.setState("Por Confirmar")
-
-//        Toast.makeText(context, "Dados atualizados", Toast.LENGTH_LONG).show()
         return true
     }
 

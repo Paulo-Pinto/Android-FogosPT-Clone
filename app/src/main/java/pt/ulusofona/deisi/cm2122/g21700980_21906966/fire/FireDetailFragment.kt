@@ -1,9 +1,8 @@
 package pt.ulusofona.deisi.cm2122.g21700980_21906966.fire
 
-import android.content.Context.BATTERY_SERVICE
 import android.graphics.Color
-import android.os.BatteryManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentFireDetailBinding
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRepository
 import java.text.SimpleDateFormat
 
 
@@ -21,14 +21,8 @@ class FireDetailFragment : Fragment() {
     private var runnable: Runnable? = null
     private var fire: FireUI? = null
     private lateinit var binding: FragmentFireDetailBinding
-    private val risks = listOf(
-        Pair("Reduzido", "#4d87e3"),
-        Pair("Moderado", "#46a112"),
-        Pair("Elevado", "#f7dd72"),
-        Pair("Muito Elevado", "#e34814"),
-        Pair("Máximo", "#da291c"),
-    )
-    private var ctr = 0
+
+    private val repo = FogosRepository.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,15 +41,13 @@ class FireDetailFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_fire_detail, container, false)
         binding = FragmentFireDetailBinding.bind(view)
 
-        val risk = risks[0]
-        binding.risk.text = "Risco ${risk.first}"
-
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
         val sdf = SimpleDateFormat("dd/MM/yyyy - HH:mm:ss")
+
         fire?.let {
             binding.fireUuid.text = it.uuid
             binding.fireState.text = it.status
@@ -65,30 +57,43 @@ class FireDetailFragment : Fragment() {
             binding.fireResources.text = it.man.toString() + " bombeiros"
             binding.submitter.text = it.submitter.toString()
         }
-        val risk = risks[0]
-        binding.risk.text = "Risco ${risk.first}"
     }
 
     override fun onResume() {
         super.onResume()
+        updateRisk()
+    }
 
-        val bm = requireContext().getSystemService(BATTERY_SERVICE) as BatteryManager
-
+    // change risk message
+    private fun updateRisk() {
         // change risk message
         binding.risk.postDelayed(Runnable {
-            binding.risk.postDelayed(runnable, 20000)
-            val risk = risks[++ctr % risks.size]
-            binding.risk.text = "Risco ${risk.first}"
-            binding.risk.setTextColor(Color.parseColor(risk.second))
+            binding.risk.postDelayed(runnable, 5000)
+            binding.risk.text = repo.getRisk()
 
-            // pode estar depois do super.onresume()
-            val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
-            if (batLevel <= 20) {
-                val gray = Color.rgb(127,127,127)
-                binding.risk.setTextColor(gray)
-            }
-        }.also { runnable = it }, 20000)
+            Log.i("RISCO", binding.risk.text.toString())
+            // mudar cor - TODO : crashes dunno why
+//            val bm = requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+//            val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+//            if (batLevel <= 20) {
+//                val gray = Color.rgb(127, 127, 127)
+//                binding.risk.setTextColor(gray)
+//            } else {
+                var cor = when (binding.risk.text) {
+                    "Reduzido" -> "#4d87e3"
+                    "Moderado" -> "#46a112"
+                    "Elevado" -> "#f7dd72"
+                    "Muito Elevado" -> "#e34814"
+                    "Máximo" -> "#da291c"
+                    else -> "#46a112"
+                }
+
+                binding.risk.setTextColor(Color.parseColor(cor))
+//            }
+
+        }.also { runnable = it }, 0)
     }
+
 
     companion object {
         @JvmStatic

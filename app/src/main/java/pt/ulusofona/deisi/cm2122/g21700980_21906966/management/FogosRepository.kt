@@ -15,7 +15,7 @@ class FogosRepository private constructor(
     private val local: Fogospt, private val remote: Fogospt
 ) {
 
-    private var district = "placeholder"
+    private var district = "Lisboa"
     private var county = "placeholder"
     private var parish = "placeholder"
     private var observations = "placeholder observations"
@@ -70,7 +70,7 @@ class FogosRepository private constructor(
     }
 
     fun deleteFire(uuid: String, onSuccess: () -> Unit) {
-        remote.deleteFire(uuid, onSuccess)
+        local.deleteFire(uuid, onSuccess)
     }
 
     fun getFireList(
@@ -118,5 +118,6 @@ class FogosRepository private constructor(
         fun getInstance(): FogosRepository {
             return instance ?: throw IllegalStateException("Repository not initialized")
         }
+
     }
 }

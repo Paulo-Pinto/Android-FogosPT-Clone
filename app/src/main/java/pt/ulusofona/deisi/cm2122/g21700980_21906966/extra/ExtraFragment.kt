@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.os.BatteryManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import okhttp3.Request
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentExtraBinding
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRepository
 
 private const val TAG = "Extra Fragment TAG"
 
@@ -32,8 +34,7 @@ class ExtraFragment : Fragment() {
         Pair("Muito Elevado", "#e34814"),
         Pair("Máximo", "#da291c"),
     )
-    private var ctr = 0
-    private var list = listOf<Fire>()
+    private val repo = FogosRepository.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,10 +57,6 @@ class ExtraFragment : Fragment() {
         super.onStart()
         binding.submitter.text = "AAAA"
 
-        val risk = risks[0]
-        binding.risk.text = "Risco ${risk.first}"
-        binding.risk.setTextColor(Color.parseColor(risk.second))
-
         getAllOperationsWs { list ->
             println("FOOOOOOOOOOOR")
             for (l in list) {
@@ -70,25 +67,42 @@ class ExtraFragment : Fragment() {
         }
 
         binding.firePlace.text = "fora"
+
     }
 
     override fun onResume() {
         super.onResume()
+        updateRisk()
+    }
+
+    // change risk message
+    private fun updateRisk() {
         // change risk message
         binding.risk.postDelayed(Runnable {
-            binding.risk.postDelayed(runnable, 20000)
-            val risk = risks[++ctr % risks.size]
-            binding.risk.text = "Risco ${risk.first}"
-            binding.risk.setTextColor(Color.parseColor(risk.second))
+            binding.risk.postDelayed(runnable, 5000)
+            binding.risk.text = repo.getRisk(repo.getRisk())
 
-            // pode estar depois do super.onresume()
+            Log.i("RISCO", binding.risk.text.toString())
+            // mudar cor
             val bm = requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
             val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
             if (batLevel <= 20) {
                 val gray = Color.rgb(127, 127, 127)
                 binding.risk.setTextColor(gray)
+            } else {
+                var cor = when (binding.risk.text) {
+                    "Reduzido" -> "#4d87e3"
+                    "Moderado" -> "#46a112"
+                    "Elevado" -> "#f7dd72"
+                    "Muito Elevado" -> "#e34814"
+                    "Máximo" -> "#da291c"
+                    else -> "#46a112"
+                }
+
+                binding.risk.setTextColor(Color.parseColor(cor))
             }
-        }.also { runnable = it }, 20000)
+
+        }.also { runnable = it }, 0)
     }
 
     private fun getAllOperationsWs(callback: (List<Fire>) -> Unit) {

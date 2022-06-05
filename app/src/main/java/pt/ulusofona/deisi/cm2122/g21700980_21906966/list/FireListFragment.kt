@@ -14,32 +14,26 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.*
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.NavigationManager
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentFireListBinding
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRepository
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.map.FusedLocation
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.map.OnLocationChangedListener
-import java.lang.Runnable
 
 class FireListFragment : Fragment(), OnLocationChangedListener {
 
-    private val model = FogosRepository.getInstance()
+    private val repo = FogosRepository.getInstance()
     private var adapter =
         FireListAdapter(onClick = ::onFireClick, onLongClick = ::onFireLongClick)
     private lateinit var binding: FragmentFireListBinding
 
     private var runnable: Runnable? = null
-    private var ctr = 0
-    private var spinner_ctr = 0
-    private val risks = listOf(
-        Pair("Reduzido", "#4d87e3"),
-        Pair("Moderado", "#46a112"),
-        Pair("Elevado", "#f7dd72"),
-        Pair("Muito Elevado", "#e34814"),
-        Pair("Máximo", "#da291c"),
-    )
+    private var spinnerCtr = 0
 
     // FusedLocation não atualiza rápido o suf
     private var lat: Double = 38.7
@@ -57,32 +51,43 @@ class FireListFragment : Fragment(), OnLocationChangedListener {
         val view = inflater.inflate(R.layout.fragment_fire_list, container, false)
         binding = FragmentFireListBinding.bind(view)
 
-        val risk = risks[0]
-        binding.risk.text = "Risco ${risk.first}"
-
-
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
+        updateRisk()
+    }
+
+    // change risk message
+    private fun updateRisk() {
         // change risk message
         binding.risk.postDelayed(Runnable {
-            binding.risk.postDelayed(runnable, 20000)
-            val risk = risks[++ctr % risks.size]
-            binding.risk.text = "Risco ${risk.first}"
-            binding.risk.setTextColor(Color.parseColor(risk.second))
+            binding.risk.postDelayed(runnable, 5000)
+            binding.risk.text = repo.getRisk()
 
-            // pode estar depois do super.onresume()
+            Log.i("RISCO", binding.risk.text.toString())
+            // mudar cor
             val bm = requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
             val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
             if (batLevel <= 20) {
                 val gray = Color.rgb(127, 127, 127)
                 binding.risk.setTextColor(gray)
+            } else {
+                var cor = when (binding.risk.text) {
+                    "Reduzido" -> "#4d87e3"
+                    "Moderado" -> "#46a112"
+                    "Elevado" -> "#f7dd72"
+                    "Muito Elevado" -> "#e34814"
+                    "Máximo" -> "#da291c"
+                    else -> "#46a112"
+                }
+
+                binding.risk.setTextColor(Color.parseColor(cor))
             }
+
         }.also { runnable = it }, 0)
     }
-
     override fun onStart() {
         super.onStart()
 
@@ -95,7 +100,7 @@ class FireListFragment : Fragment(), OnLocationChangedListener {
                 position: Int,
                 id: Long
             ) {
-                if (spinner_ctr++ > 0) {
+                if (spinnerCtr++ > 0) {
                     Log.i("FireList", "Chose new district, $position")
                     setFires()
                 }
@@ -129,7 +134,7 @@ class FireListFragment : Fragment(), OnLocationChangedListener {
     }
 
     fun setFires() {
-        model.getFireList(
+        repo.getFireList(
             { updateFireList(it) },
             district = binding.districtSpinner.selectedItem.toString(),
             radius = binding.radiusSlider.value.toInt(),
@@ -143,7 +148,7 @@ class FireListFragment : Fragment(), OnLocationChangedListener {
 
     private fun onFireLongClick(fireui: FireUI): Boolean {
         Toast.makeText(context, getString(R.string.delete), Toast.LENGTH_SHORT).show()
-        model.deleteFire(fireui.uuid) {}
+        repo.deleteFire(fireui.uuid) {}
         return false
     }
 

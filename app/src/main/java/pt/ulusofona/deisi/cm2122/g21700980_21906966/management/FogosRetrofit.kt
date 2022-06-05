@@ -32,43 +32,27 @@ class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
 //                if(district != "Portugal") {
-//                    val fires = service.getAll()
+//                    val fires = service.getAllByDistrict()
 //                }
                 val fires = service.getAll()
 
                 onFinished(fires.data.map {
-                    if (usedIds.contains(it.id)){
-                        FireUI(
-                            it.id + 1 ,
-                            it.created["sec"],
-                            it.district,
-                            it.concelho,
-                            it.freguesia,
-                            "observações",
-                            it.status,
-                            "António Silva",
-                            "12345678",
-                            it.location,
-                            it.man,
-                            it.lat,
-                            it.lng,
-                            it.date,
-                            it.hour
-                            )
-                    } else {
-                        usedIds.add(it.id)
-                        FireUI(
-                            it.id,
-                            12332,
-                            "district",
-                            "c",
-                            "f",
-                            "o",
-                            "name",
-                            "12345678",
-                            "estado",
-                        )
-                    }
+                    FireUI(
+                        it.district,
+                        it.concelho,
+                        it.freguesia,
+                        it.location,
+                        "obs",
+                        it.status,
+                        "12345678",
+                        0L,
+                        it.date,
+                        it.hour,
+                        it.lat,
+                        it.lng,
+                        it.man,
+                        api = true,
+                    )
                 })
             } catch (ex: HttpException) {
                 Log.e(TAG, ex.message())
@@ -76,4 +60,10 @@ class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
         }
     }
 
+    override fun getRisk(onFinished: (String) -> Unit, district: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val risk = service.getRisk(district).risk.split(",")[0].split("-")[1].trim()
+            onFinished(risk)
+        }
+    }
 }

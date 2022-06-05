@@ -29,7 +29,6 @@ interface FogosDao {
     @Query("DELETE FROM fire WHERE uuid = :uuid")
     suspend fun delete(uuid: String): Int
 
-    @Query("DELETE FROM fire")
+    @Query("DELETE FROM fire WHERE api = 1")
     suspend fun deleteAll(): Int
-
 }

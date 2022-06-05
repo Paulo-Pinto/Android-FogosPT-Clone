@@ -17,13 +17,16 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FireService
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRepository
 
 class MapFragment : Fragment(), OnLocationChangedListener {
 
     private lateinit var binding: FragmentMapBinding
-
+    private val repo = FogosRepository.getInstance()
     // mapa
     private lateinit var geocoder: Geocoder
+    private var district = "Portugal"
     private var map: GoogleMap? = null
 
     // risk
@@ -69,8 +72,10 @@ class MapFragment : Fragment(), OnLocationChangedListener {
         binding.risk.postDelayed(Runnable {
             binding.risk.postDelayed(runnable, 20000)
             val risk = risks[++ctr % risks.size]
-            binding.risk.text = "Risco ${risk.first}"
+//            binding.risk.text = "Risco ${risk.first}"
             binding.risk.setTextColor(Color.parseColor(risk.second))
+
+            binding.risk.text = repo.getRisk({ }, district).toString()
 
             // pode estar depois do super.onresume()
             val bm = requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
@@ -95,10 +100,11 @@ class MapFragment : Fragment(), OnLocationChangedListener {
         map?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
-    private fun placeCityName(latitude: Double, longitude: Double) {
+    private fun placeCityName(latitude: Double, longitude: Double) : String {
         val addresses = geocoder.getFromLocation(latitude, longitude, 5)
         val location = addresses.first { it.locality != null && it.locality.isNotEmpty() }
         binding.tvCityName.text = location.locality
+        return location.locality
     }
 
     override fun onDestroy() {

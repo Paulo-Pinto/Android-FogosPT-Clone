@@ -59,10 +59,10 @@ class FireDetailFragment : Fragment() {
         fire?.let {
             binding.fireUuid.text = it.uuid
             binding.fireState.text = it.status
-            binding.firePlace.text = it.place
+            binding.firePlace.text = it.location
             binding.fireTimestamp.text = sdf.format(it.timestamp)
             binding.fireObservations.text = it.obs
-            binding.fireResources.text = it.firefighters.toString() + " bombeiros"
+            binding.fireResources.text = it.man.toString() + " bombeiros"
             binding.submitter.text = it.submitter.toString()
         }
         val risk = risks[0]

@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
 
 // Este array deverá conter todas as entidades do modelo de dados
-@Database(entities = [Fire::class], version = 5)
+@Database(entities = [Fire::class], version = 8)
 abstract class FireDatabase : RoomDatabase() {
 
     abstract fun fogosDao(): FogosDao

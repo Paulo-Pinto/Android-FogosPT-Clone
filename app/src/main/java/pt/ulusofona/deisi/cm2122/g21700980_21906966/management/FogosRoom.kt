@@ -12,14 +12,25 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
         CoroutineScope(Dispatchers.IO).launch {
             val history = fires.map {
                 Fire(
-                    it.uuid,
                     it.district,
                     it.county,
                     it.parish,
+                    it.location,
+
                     it.obs,
                     it.status,
-                    it.submitter.getCc(),
-                ) }
+
+                    it.submitter_cc,
+
+                    it.timestamp,
+                    it.date,
+                    it.hour,
+
+                    it.lat,
+                    it.lng,
+                    it.man
+                )
+            }
             dao.insertAll(history)
             onFinished(fires)
         }
@@ -29,7 +40,7 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
         CoroutineScope(Dispatchers.IO).launch {
             val result = dao.delete(uuid)
             // se == 1 eliminou o registo, se for 0 não encontrou o registo a eliminar
-            if(result == 1) onSuccess()
+            if (result == 1) onSuccess()
         }
     }
 
@@ -46,20 +57,31 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
             val fires = dao.getAll()
             onFinished(fires.map {
                 FireUI(
-                    it.uuid,
-                    it.timestamp,
                     it.district,
                     it.county,
                     it.parish,
+                    it.location,
+
                     it.obs,
                     it.status,
+
                     it.submitter_cc,
-                    it.submitter_cc
+
+                    it.timestamp,
+                    it.date,
+                    it.hour,
+
+                    it.lat,
+                    it.lng,
+                    it.man
                 )
             })
         }
     }
 
+    override fun getRisk(onFinished: (String) -> Unit, district: String) {
+        onFinished("Desconhecido")
+    }
 
 
 }

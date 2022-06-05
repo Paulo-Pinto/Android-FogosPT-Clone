@@ -7,21 +7,30 @@ import retrofit2.http.*
 
 data class ResponseData(
     val id: String,
+
     val district: String,
     val concelho: String,
     val freguesia: String,
+    val location : String,
+
     val status: String,
+
     val lat: Double,
     val lng: Double,
-    val location : String,
-    val man : Int,
+
     val date : String,
     val hour : String,
+    val man : Int,
+
     val created : HashMap<String, Long>,
 )
 
 data class GetFiresResponse(
-    val data: List<ResponseData>
+    val data : List<ResponseData>
+)
+
+data class GetRisk(
+    val risk : String
 )
 
 //data class DeleteOperationByIdResponse(val message: String)
@@ -33,6 +42,9 @@ interface FireService {
 
     @GET("new/fires")
     suspend fun getAll(): GetFiresResponse
+
+    @GET("v1/risk?")
+    suspend fun getRisk(@Query("concelho") district: String): GetRisk
 
 //    @Headers("apikey: 8270435acfead39ccb03e8aafbf37c49359dfbbcac4ef4769ae82c9531da0e17")
 //    @DELETE("operations/{uuid}")

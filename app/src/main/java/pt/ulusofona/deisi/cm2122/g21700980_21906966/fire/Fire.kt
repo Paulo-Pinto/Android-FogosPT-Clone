@@ -10,22 +10,28 @@ import java.util.*
 
 @Entity(tableName = "fire")
 data class Fire(
-    @PrimaryKey val uuid: String = UUID.randomUUID().toString(),
     val district: String,
     val county: String,
     val parish: String,
+    val location: String = "",
+
     val obs: String,
     val status: String,
-    val submitter_cc: String,
-    val timestamp: Long = Date().time,
 
-    val place: String = "",
-    val firefighters: Int = 0,
+    val submitter_cc: String,
+
+    val timestamp: Long = Date().time,
+    val date: String = "1970",
+    val hour: String = "12:00",
+
     val lat: Double = 0.0,
     val lng: Double = 0.0,
-    val date : String = "1970",
-    val hour : String = "12:00",
-) {
+    val man: Int = 0,
+
+    val api: Boolean = false,
+    @PrimaryKey val uuid: String = UUID.randomUUID().toString(),
+
+    ) {
 
     // TODO : faltam fotos
     //val pic = ImageView(R.drawable.ic_fire_red) não dá para aceder por causa do mvvm
@@ -33,25 +39,28 @@ data class Fire(
 
 @Parcelize
 data class FireUI(
-    val uuid: String,
-    val timestamp: Long?,
     val district: String,
     val county: String,
     val parish: String,
+    val location: String = "",
+
     val obs: String,
     val status: String,
-    val submitterName: String,
-    val submitterCc: String,
 
-    val place: String = "",
-    val firefighters: Int = 0,
-//    val last_updated: Int = 0,
+    val submitter_cc: String,
+
+    val timestamp: Long = Date().time,
+    val date: String = "1970",
+    val hour: String = "12:00",
+
     val lat: Double = 0.0,
     val lng: Double = 0.0,
-    val date : String = "1970",
-    val hour : String = "12:00",
+    val man: Int = 0,
+
+    val api: Boolean = false,
+    val uuid: String = UUID.randomUUID().toString(),
 ) : Parcelable {
 
     @IgnoredOnParcel
-    val submitter: Person = Person(submitterName, submitterCc)
+    val submitter: Person = Person(submitter_cc)
 }

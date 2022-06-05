@@ -28,6 +28,8 @@ abstract class Fogospt {
         fireList.add(fire)
     }
 
+    abstract fun getRisk(function: (String) -> Unit, district : String = "Portugal")
+
 //    fun getFireList(
 //        onFinished: (List<FireRoom>) -> Unit,
 //        district: String = "Portugal",

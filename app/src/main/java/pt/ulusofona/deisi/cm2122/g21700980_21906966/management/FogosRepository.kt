@@ -22,6 +22,8 @@ class FogosRepository private constructor(
     private var submitter = Person("Anonymous", "99999999")
     private var status = "Por Confirmar"
 
+    private var risk = "Risco Normal"
+
     public fun setLocation(d: String, c: String, f: String): String {
         district = d
         county = c
@@ -85,6 +87,17 @@ class FogosRepository private constructor(
         }
     }
 
+    fun getRisk(
+        onFinished: (String) -> Unit,
+        district : String = "Portugal"
+    ) {
+        if (ConnectivityUtil.isOnline(context)) {
+            remote.getRisk(onFinished, district)
+        } else {
+            local.getRisk(onFinished, district)
+        }
+    }
+
     companion object {
 
         private var instance: FogosRepository? = null
@@ -100,7 +113,5 @@ class FogosRepository private constructor(
         fun getInstance(): FogosRepository {
             return instance ?: throw IllegalStateException("Repository not initialized")
         }
-
     }
-
 }

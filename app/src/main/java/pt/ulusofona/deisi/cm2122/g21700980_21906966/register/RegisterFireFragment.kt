@@ -196,15 +196,23 @@ class RegisterFireFragment : Fragment() {
 
         fires.map {
             FireUI(
-                it.uuid,
-                it.timestamp,
                 it.district,
                 it.county,
                 it.parish,
+                it.location,
+
                 it.obs,
                 it.status,
-                it.submitter.getName(),
-                it.submitter.getCc(),
+
+                it.submitter_cc,
+
+                it.timestamp,
+                it.date,
+                it.hour,
+
+                it.lat,
+                it.lng,
+                it.man
             )
         }
     }

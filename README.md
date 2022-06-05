@@ -1,7 +1,7 @@
 # FogosPT Android
 ## Tiago James 21700980 - Paulo Pinto 21906966
 
-● Screenshots dos ecrãs;
+Vídeo apresentação -> https://youtu.be/qd0FsKnTJfM
 
 ### Dashboard
 ![1cm](https://user-images.githubusercontent.com/56626741/170687550-cdad7ec3-c37b-402a-b323-ec90ab9db910.png)
@@ -60,19 +60,6 @@ Foi contemplado o suporte multi-idioma, existindo um ficheiro strings.xml com a 
 ### Navegabilidade
 ![7cm](https://user-images.githubusercontent.com/56626741/170687749-ac998937-aafb-4584-afd6-01ba895e3997.png)
 
-
 Optámos pelo menu drawer para navegar na aplicação.
-  
-### Extra
-  
-
-
-
-
-
-
-
-
-
-
-● A previsão da nota por parte do aluno (autoavaliação)
+ 
+Autoavaliação pt 2 -> tendo em conta os critérios, 14

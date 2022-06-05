@@ -101,7 +101,8 @@ class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
 
     override fun getRisk(onFinished: (String) -> Unit, district: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val risk = service.getRisk(district).risk.split(",")[0].split("-")[1].trim()
+            val risk = service.getRisk(district).data.split(",")[0].split("-")[1].trim()
+            Log.i("GotRisk", " $risk for $district")
             onFinished(risk)
         }
     }

@@ -30,7 +30,7 @@ data class GetFiresResponse(
 )
 
 data class GetRisk(
-    val risk : String
+    val data : String
 )
 
 //data class DeleteOperationByIdResponse(val message: String)
@@ -45,11 +45,6 @@ interface FireService {
 
     @GET("v1/risk?")
     suspend fun getRisk(@Query("concelho") district: String): GetRisk
-
-//    @Headers("apikey: 8270435acfead39ccb03e8aafbf37c49359dfbbcac4ef4769ae82c9531da0e17")
-//    @DELETE("operations/{uuid}")
-//    suspend fun deleteById(@Path("uuid") uuid: String): DeleteOperationByIdResponse
-
 }
 
 /*

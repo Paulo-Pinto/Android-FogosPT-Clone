@@ -23,9 +23,9 @@ class FogosRepository private constructor(
     private var status = "Por Confirmar"
 
     private var api_read = false
-    private var risk = "Risco Normal"
+    private var risk = "Desconhecido"
 
-    public fun setLocation(d: String, c: String, f: String): String {
+    fun setLocation(d: String, c: String, f: String): String {
         district = d
         county = c
         parish = f
@@ -77,7 +77,7 @@ class FogosRepository private constructor(
         onFinished: (List<FireUI>) -> Unit,
         district: String = "Portugal",
         radius: Int = 999,
-        coordinates : Pair<Double, Double> = Pair(0.0, 0.0)
+        coordinates: Pair<Double, Double> = Pair(0.0, 0.0)
     ) {
         // apaga fogos provenientes da api
         local.deleteAPIFires {}
@@ -94,18 +94,17 @@ class FogosRepository private constructor(
     }
 
     fun getRisk(
-        onFinished: (String) -> Unit,
-        district: String = "Portugal"
-    ) {
+        district: String = "Lisboa"
+    ): String {
         if (ConnectivityUtil.isOnline(context)) {
-            remote.getRisk(onFinished, district)
+            remote.getRisk({ risk = it }, district)
         } else {
-            local.getRisk(onFinished, district)
+            local.getRisk({ risk = it }, district)
         }
+        return "Risco $risk"
     }
-    // TODO : passar repo para aqui
-    companion object {
 
+    companion object {
         private var instance: FogosRepository? = null
 
         fun init(context: Context, local: Fogospt, remote: Fogospt) {

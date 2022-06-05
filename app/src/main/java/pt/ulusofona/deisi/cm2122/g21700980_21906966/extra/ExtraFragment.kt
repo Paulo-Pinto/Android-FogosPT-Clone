@@ -16,9 +16,8 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Person
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentExtraBinding
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
 
 private const val TAG = "Extra Fragment TAG"
 
@@ -35,10 +34,6 @@ class ExtraFragment : Fragment() {
     )
     private var ctr = 0
     private var list = listOf<Fire>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

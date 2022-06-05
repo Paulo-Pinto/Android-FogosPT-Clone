@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.ListItemFireBinding
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 
 class FireListAdapter(
     private var items: List<FireUI> = listOf(),
@@ -42,5 +42,9 @@ class FireListAdapter(
     fun updateItems(items: List<FireUI>) {
         this.items = items
         notifyDataSetChanged()
+    }
+
+    fun getItems(): List<FireUI> {
+        return items
     }
 }

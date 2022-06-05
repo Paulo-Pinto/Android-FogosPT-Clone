@@ -3,15 +3,15 @@ package pt.ulusofona.deisi.cm2122.g21700980_21906966.extra
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.ListItemFireBinding
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 
 class ExtraAdapter(
     private var items: List<FireUI> = listOf(),
     private val onClick: (FireUI) -> Unit,
     private val onLongClick: (FireUI) -> Boolean
 ) : RecyclerView.Adapter<ExtraAdapter.ExtraViewHolder>() {
-//FragmentExtraBinding
+    //FragmentExtraBinding
     class ExtraViewHolder(val binding: ListItemFireBinding) :
         RecyclerView.ViewHolder(binding.root)
 

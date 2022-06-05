@@ -2,24 +2,30 @@ package pt.ulusofona.deisi.cm2122.g21700980_21906966.map
 
 import android.content.Context
 import android.graphics.Color
-import android.location.Address
 import android.location.Geocoder
 import android.os.BatteryManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.android.gms.maps.GoogleMap
-import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentMapBinding
-import java.util.*
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.NavigationManager
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentMapBinding
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.list.FireListAdapter
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRepository
+import java.util.*
 
 class MapFragment : Fragment(), OnLocationChangedListener {
 
@@ -33,6 +39,8 @@ class MapFragment : Fragment(), OnLocationChangedListener {
 
     // risk
     private var runnable: Runnable? = null
+
+    private var adapter = FireListAdapter(onClick = ::onFireClick, onLongClick = ::onFireLongClick)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +68,74 @@ class MapFragment : Fragment(), OnLocationChangedListener {
         binding.map.onResume()
         updateRisk()
 
+        repo.getFireList({ updateFireList(it) })
+        Handler(Looper.getMainLooper()).postDelayed({ drawFireOnMap() }, 1000)
+    }
+
+    private fun onFireClick(fireui: FireUI) {
+        NavigationManager.goToFireDetailFragment(parentFragmentManager, fireui)
+    }
+
+    private fun onFireLongClick(fireui: FireUI): Boolean {
+        return false
+    }
+
+    private fun updateFireList(fires: List<FireUI>) {
+        val fireList = fires.map {
+            FireUI(
+                it.api,
+
+                it.district,
+                it.county,
+                it.parish,
+                it.location,
+
+                it.obs,
+                it.status,
+
+                it.submitter_cc,
+
+                it.date,
+                it.hour,
+                it.lat,
+
+                it.lng,
+                it.man,
+                it.timestamp,
+                it.distance
+            )
+        }
+        CoroutineScope(Dispatchers.Main).launch {
+            adapter.updateItems(fireList)
+        }
+    }
+
+    private fun drawMarker(latitude: Double, longitude: Double, tittle: String) : Marker? {
+        if (this.map != null){
+            val latLng = LatLng(latitude, longitude)
+            val markerOptions = MarkerOptions()
+            markerOptions.position(latLng)
+            markerOptions.title(tittle)
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+            map!!.addMarker(markerOptions)
+        }
+
+        return null
+    }
+
+    private fun onMarkerClick(fireui: FireUI): Boolean{
+        NavigationManager.goToFireDetailFragment(parentFragmentManager, fireui)
+        return false
+    }
+
+    private fun drawFireOnMap() {
+        for (fire in adapter.getItems()){
+            val marker = drawMarker(fire.lat, fire.lng, fire.uuid)
+
+            map?.setOnMarkerClickListener {
+                onMarkerClick(fire)
+            }
+        }
     }
 
     fun updateRisk() {
@@ -99,7 +175,7 @@ class MapFragment : Fragment(), OnLocationChangedListener {
     private fun placeCamera(latitude: Double, longitude: Double) {
         val cameraPosition = CameraPosition.Builder()
             .target(LatLng(latitude, longitude))
-            .zoom(10f)
+            .zoom(9f)
             .build()
         map?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }

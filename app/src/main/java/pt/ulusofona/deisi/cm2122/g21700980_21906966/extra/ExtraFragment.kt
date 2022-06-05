@@ -120,6 +120,7 @@ class ExtraFragment : Fragment() {
                         .toList()
                 callback(responseObj.map {
                     Fire(
+                        api = true,
                         uuid = it.uuid,
                         district = it.expression,
                         county = " -- ",

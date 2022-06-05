@@ -22,6 +22,7 @@ class FogosRepository private constructor(
     private var submitter = Person("Anonymous", "99999999")
     private var status = "Por Confirmar"
 
+    private var api_read = false
     private var risk = "Risco Normal"
 
     public fun setLocation(d: String, c: String, f: String): String {
@@ -48,20 +49,23 @@ class FogosRepository private constructor(
         status = listOf("Por confirmar", "Em curso", "Concluído")[Random.nextInt(0, 3)]
     }
 
-    fun addFire(onSaved: () -> Unit) {
+    fun addFire(onFinished: () -> Unit) {
 
         val fire = Fire(
+            api = false,
             district = district,
             county = county,
             parish = parish,
+            location = "$county, $parish",
+
             obs = observations,
             status = status,
+
             submitter_cc = submitter.getCc(),
         )
 
         CoroutineScope(Dispatchers.IO).launch {
-            local.addToFireList(fire)
-            onSaved()
+            local.addToFireList(fire) { onFinished() }
         }
     }
 
@@ -74,16 +78,24 @@ class FogosRepository private constructor(
         district: String = "Portugal",
         radius: Int = 999
     ) {
+        local.getFireList(onFinished)
+
         if (ConnectivityUtil.isOnline(context)) {
+
+            local.deleteAPIFires {}
+
             remote.getFireList({ fireList ->
                 local.insertFires(fireList) {
-                    onFinished(fireList)
+                    local.getFireList(onFinished)
+//                        onFinished(fireList)
                 }
             }, district, radius)
+
         } else {
             local.getFireList(onFinished)
         }
     }
+
 
     fun getRisk(
         onFinished: (String) -> Unit,

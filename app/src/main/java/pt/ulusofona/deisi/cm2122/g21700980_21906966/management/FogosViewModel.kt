@@ -1,6 +1,7 @@
 package pt.ulusofona.deisi.cm2122.g21700980_21906966.management
 
 import androidx.lifecycle.ViewModel
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Person
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 
@@ -23,7 +24,8 @@ class FogosViewModel : ViewModel() {
         model.getFireList(onFinished)
     }
 
-    fun addFire(onSaved: () -> Unit) {
-        model.addFire(onSaved)
+    fun addFire(onFinished:() -> Unit) {
+        model.addFire(onFinished)
     }
+
 }

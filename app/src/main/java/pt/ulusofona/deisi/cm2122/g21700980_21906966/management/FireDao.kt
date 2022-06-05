@@ -4,12 +4,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 
 @Dao
 interface FogosDao {
 
     @Insert
-    suspend fun insert(fire: Fire)
+    suspend fun addToFireList(fire: Fire)
 
     @Insert
     suspend fun insertAll(fires: List<Fire>)
@@ -29,6 +30,9 @@ interface FogosDao {
     @Query("DELETE FROM fire WHERE uuid = :uuid")
     suspend fun delete(uuid: String): Int
 
-    @Query("DELETE FROM fire WHERE api = 1")
+    @Query("DELETE FROM fire")
     suspend fun deleteAll(): Int
+
+    @Query("DELETE FROM fire WHERE api = 1")
+    suspend fun deleteAllFromAPI(): Int
 }

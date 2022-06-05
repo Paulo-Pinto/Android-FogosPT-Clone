@@ -10,6 +10,8 @@ import java.util.*
 
 @Entity(tableName = "fire")
 data class Fire(
+    val api: Boolean,
+
     val district: String,
     val county: String,
     val parish: String,
@@ -28,7 +30,6 @@ data class Fire(
     val lng: Double = 0.0,
     val man: Int = 0,
 
-    val api: Boolean = false,
     @PrimaryKey val uuid: String = UUID.randomUUID().toString(),
 
     ) {
@@ -39,6 +40,8 @@ data class Fire(
 
 @Parcelize
 data class FireUI(
+    val api: Boolean,
+
     val district: String,
     val county: String,
     val parish: String,
@@ -57,7 +60,6 @@ data class FireUI(
     val lng: Double = 0.0,
     val man: Int = 0,
 
-    val api: Boolean = false,
     val uuid: String = UUID.randomUUID().toString(),
 ) : Parcelable {
 

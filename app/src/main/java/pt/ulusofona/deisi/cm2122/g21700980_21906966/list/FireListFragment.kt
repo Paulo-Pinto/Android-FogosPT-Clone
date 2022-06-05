@@ -119,6 +119,7 @@ class FireListFragment : Fragment() {
 
         binding.firelist.layoutManager = LinearLayoutManager(context)
         binding.firelist.adapter = adapter
+//        model.getFireListFromLocal({ updateFireList(it) })
         model.getFireList({ updateFireList(it) }, binding.districtSpinner.selectedItem.toString())
     }
 
@@ -139,6 +140,7 @@ class FireListFragment : Fragment() {
     private fun updateFireList(fires: List<FireUI>) {
         val fireList = fires.map {
             FireUI(
+                it.api,
                 it.district,
                 it.county,
                 it.parish,

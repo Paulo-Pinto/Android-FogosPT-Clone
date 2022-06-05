@@ -4,6 +4,7 @@ import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 import retrofit2.*
 import java.lang.Exception
@@ -38,6 +39,7 @@ class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
 
                 onFinished(fires.data.map {
                     FireUI(
+                        api = true,
                         it.district,
                         it.concelho,
                         it.freguesia,
@@ -51,13 +53,20 @@ class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
                         it.lat,
                         it.lng,
                         it.man,
-                        api = true,
                     )
                 })
             } catch (ex: HttpException) {
                 Log.e(TAG, ex.message())
             }
         }
+    }
+
+    override fun deleteAPIFires(onFinished: () -> Unit) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addToFireList(fire: Fire, onFinished: () -> Unit) {
+        TODO("Not yet implemented")
     }
 
     override fun getRisk(onFinished: (String) -> Unit, district: String) {

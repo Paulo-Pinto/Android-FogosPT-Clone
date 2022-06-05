@@ -23,10 +23,9 @@ abstract class Fogospt {
         radius: Int = 999
     )
 
-    fun addToFireList(fire: Fire) {
-//        Thread.sleep(10 * 1000)
-        fireList.add(fire)
-    }
+    abstract fun deleteAPIFires(onFinished: () -> Unit)
+
+    abstract fun addToFireList(fire: Fire, onSaved: () -> Unit)
 
     abstract fun getRisk(function: (String) -> Unit, district : String = "Portugal")
 

@@ -196,6 +196,8 @@ class RegisterFireFragment : Fragment() {
 
         fires.map {
             FireUI(
+                it.api,
+
                 it.district,
                 it.county,
                 it.parish,

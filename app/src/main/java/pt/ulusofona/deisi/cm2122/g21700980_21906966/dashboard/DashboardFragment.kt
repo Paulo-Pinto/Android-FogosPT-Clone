@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.connectivity.ConnectivityUtil
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentDashboardBinding
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRepository
 
@@ -54,7 +55,10 @@ class DashboardFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         // vamos buscar temp e wind,, mas mudar os dois crasha . ..
-        setWeather { binding.weather.text = it }
+
+        if (context?.let { ConnectivityUtil.isOnline(it) } == true) {
+            setWeather { binding.weather.text = it }
+        }
     }
 
     // RISK
@@ -109,5 +113,4 @@ class DashboardFragment : Fragment() {
             }
         }
     }
-
 }

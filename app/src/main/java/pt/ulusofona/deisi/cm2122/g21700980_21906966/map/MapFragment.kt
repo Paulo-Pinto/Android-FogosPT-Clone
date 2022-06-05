@@ -69,7 +69,7 @@ class MapFragment : Fragment(), OnLocationChangedListener {
         updateRisk()
 
         repo.getFireList({ updateFireList(it) })
-        Handler(Looper.getMainLooper()).postDelayed({ drawFireOnMap() }, 1000)
+        Handler(Looper.getMainLooper()).postDelayed({ drawFireOnMap() }, 0)
     }
 
     // RISK
@@ -113,7 +113,7 @@ class MapFragment : Fragment(), OnLocationChangedListener {
     private fun placeCamera(latitude: Double, longitude: Double) {
         val cameraPosition = CameraPosition.Builder()
             .target(LatLng(latitude, longitude))
-            .zoom(10f)
+            .zoom(11f)
             .build()
         map?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }

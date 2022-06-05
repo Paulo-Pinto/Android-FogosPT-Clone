@@ -23,6 +23,7 @@ import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Person
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRepository
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosViewModel
+import kotlin.random.Random
 
 class RegisterFireFragment : Fragment() {
 
@@ -178,7 +179,32 @@ class RegisterFireFragment : Fragment() {
     }
 
     private fun onClickCreatePremadeFire() {
-        viewModel.setLocation("Lisboa", "Lisboa", "Alvalade")
+
+        val distritos = listOf(
+            "Aveiro",
+            "Beja",
+            "Braga",
+            "Bragança",
+            "Castelo Branco",
+            "Coimbra",
+            "Évora",
+            "Faro",
+            "Guarda",
+            "Leiria",
+            "Lisboa",
+            "Portalegre",
+            "Porto",
+            "Santarém",
+            "Setúbal",
+            "Viana do Castelo",
+            "Viseu",
+        )
+
+        viewModel.setLocation(
+            distritos[Random.nextInt(distritos.size)],
+            "PreConcelho",
+            "PreFreguesia"
+        )
         viewModel.setSubmitter(Person("Vincent Aboubakar", "12345678"))
         viewModel.setObservations("Fogo pré-feito")
         viewModel.setRandomState()

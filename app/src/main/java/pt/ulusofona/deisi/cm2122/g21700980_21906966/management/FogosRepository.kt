@@ -76,10 +76,8 @@ class FogosRepository private constructor(
     ) {
         if (ConnectivityUtil.isOnline(context)) {
             remote.getFireList({ fireList ->
-                local.deleteAllFires {
-                    local.insertFires(fireList) {
-                        onFinished(fireList)
-                    }
+                local.insertFires(fireList) {
+                    onFinished(fireList)
                 }
             }, district, radius)
         } else {
@@ -89,7 +87,7 @@ class FogosRepository private constructor(
 
     fun getRisk(
         onFinished: (String) -> Unit,
-        district : String = "Portugal"
+        district: String = "Portugal"
     ) {
         if (ConnectivityUtil.isOnline(context)) {
             remote.getRisk(onFinished, district)

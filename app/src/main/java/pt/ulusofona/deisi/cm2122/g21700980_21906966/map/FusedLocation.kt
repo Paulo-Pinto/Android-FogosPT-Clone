@@ -8,7 +8,7 @@ import com.google.android.gms.location.*
 
 @SuppressLint("MissingPermission")
 class FusedLocation private constructor(context: Context) : LocationCallback() {
-
+    lateinit private var last_coords: Pair<Double, Double>
     private val TAG = FusedLocation::class.java.simpleName
 
     // Intervalos de tempo em que a localização é verificada, 5 segundos
@@ -38,7 +38,13 @@ class FusedLocation private constructor(context: Context) : LocationCallback() {
 
     override fun onLocationResult(locationResult: LocationResult) {
         Log.i(TAG, locationResult.lastLocation.toString())
+        last_coords =
+            Pair(locationResult.lastLocation.latitude, locationResult.lastLocation.longitude)
         notifyListener(locationResult)
+    }
+
+    fun getLastCoords(): Pair<Double,Double> {
+        return last_coords
     }
 
     companion object {

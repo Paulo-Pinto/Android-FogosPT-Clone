@@ -22,17 +22,18 @@ data class Fire(
 
     val submitter_cc: String,
 
-    val timestamp: Long = Date().time,
     val date: String = "1970",
     val hour: String = "12:00",
 
     val lat: Double = 0.0,
     val lng: Double = 0.0,
+
     val man: Int = 0,
 
+    val timestamp: Long = Date().time,
+    val distance: Int = 0,
     @PrimaryKey val uuid: String = UUID.randomUUID().toString(),
-
-    ) {
+) {
 
     // TODO : faltam fotos
     //val pic = ImageView(R.drawable.ic_fire_red) não dá para aceder por causa do mvvm
@@ -52,7 +53,6 @@ data class FireUI(
 
     val submitter_cc: String,
 
-    val timestamp: Long = Date().time,
     val date: String = "1970",
     val hour: String = "12:00",
 
@@ -60,6 +60,8 @@ data class FireUI(
     val lng: Double = 0.0,
     val man: Int = 0,
 
+    val timestamp: Long = Date().time,
+    val distance: Int = 0,
     val uuid: String = UUID.randomUUID().toString(),
 ) : Parcelable {
 

@@ -11,7 +11,8 @@ abstract class Fogospt {
     abstract fun getFireList(
         onFinished: (List<FireUI>) -> Unit,
         district: String = "Portugal",
-        radius: Int = 999
+        radius: Int = 999,
+        coordinates : Pair<Double, Double> = Pair(0.0, 0.0)
     )
 
     abstract fun deleteAPIFires(onFinished: () -> Unit)

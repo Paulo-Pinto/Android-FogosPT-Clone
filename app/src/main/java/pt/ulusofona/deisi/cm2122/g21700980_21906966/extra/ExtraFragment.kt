@@ -123,11 +123,11 @@ class ExtraFragment : Fragment() {
                         api = true,
                         uuid = it.uuid,
                         district = it.expression,
-                        county = " -- ",
-                        parish = it.result.toString(),
-                        obs = it.timestamp.toString(),
-                        status = it.timestamp.toString(),
-                        submitter_cc = "1234",
+                        county = it.expression,
+                        parish = it.timestamp.toString(),
+                        obs = "Expression",
+                        status = it.result.toString(),
+                        submitter_cc = "00000000",
                     )
                 })
             }

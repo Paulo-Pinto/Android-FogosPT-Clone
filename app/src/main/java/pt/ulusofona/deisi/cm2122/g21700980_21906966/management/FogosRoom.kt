@@ -33,13 +33,14 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
 
                     it.submitter_cc,
 
-                    it.timestamp,
                     it.date,
                     it.hour,
-
                     it.lat,
+
                     it.lng,
-                    it.man
+                    it.man,
+                    it.timestamp,
+                    it.distance
                 )
             }
             dao.insertAll(history)
@@ -69,10 +70,8 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
         }
     }
 
-    override fun getFireList(onFinished: (List<FireUI>) -> Unit, district: String, radius: Int) {
+    override fun getFireList(onFinished: (List<FireUI>) -> Unit, district: String, radius: Int, coordinates : Pair<Double, Double>) {
         CoroutineScope(Dispatchers.IO).launch {
-//             TODO : if district == portugal get all else get district
-
             val fires: List<Fire> = if (district == "Portugal") {
                 dao.getAll() // país inteiro
             } else {
@@ -80,6 +79,7 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
             }
 
             onFinished(fires.map {
+                Log.i("ROOM API ", " $it + ${it.api}")
                 FireUI(
                     it.api,
 
@@ -93,13 +93,14 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
 
                     it.submitter_cc,
 
-                    it.timestamp,
                     it.date,
                     it.hour,
-
                     it.lat,
+
                     it.lng,
-                    it.man
+                    it.man,
+                    it.timestamp,
+                    it.distance
                 )
             })
         }

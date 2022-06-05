@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.os.BatteryManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,15 +14,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.*
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentFireListBinding
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRepository
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.map.FusedLocation
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.map.OnLocationChangedListener
+import java.lang.Runnable
 
-class FireListFragment : Fragment() {
+class FireListFragment : Fragment(), OnLocationChangedListener {
 
     private val model = FogosRepository.getInstance()
     private var adapter =
@@ -30,6 +32,7 @@ class FireListFragment : Fragment() {
 
     private var runnable: Runnable? = null
     private var ctr = 0
+    private var spinner_ctr = 0
     private val risks = listOf(
         Pair("Reduzido", "#4d87e3"),
         Pair("Moderado", "#46a112"),
@@ -38,11 +41,17 @@ class FireListFragment : Fragment() {
         Pair("Máximo", "#da291c"),
     )
 
+    // FusedLocation não atualiza rápido o suf
+    private var lat: Double = 38.7
+    private var lng: Double = -9.7
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        FusedLocation.registerListener(this)
+
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
             getString(R.string.fire_list)
         val view = inflater.inflate(R.layout.fragment_fire_list, container, false)
@@ -51,34 +60,12 @@ class FireListFragment : Fragment() {
         val risk = risks[0]
         binding.risk.text = "Risco ${risk.first}"
 
-        binding.districtSpinner.setOnItemSelectedListener(object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                // filter district
-                model.getFireList(
-                    {
-                        updateFireList(
-                            it
-                        )
-                    }, district = parent.selectedItem.toString(),
-                    radius = binding.radiusSlider.value.toInt()
-                )
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        })
 
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-
         // change risk message
         binding.risk.postDelayed(Runnable {
             binding.risk.postDelayed(runnable, 20000)
@@ -98,6 +85,24 @@ class FireListFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        // filter district
+        binding.districtSpinner.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (spinner_ctr++ > 0) {
+                    Log.i("FireList", "Chose new district, $position")
+                    setFires()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
 
         // add districts to spinner
         ArrayAdapter.createFromResource(
@@ -119,8 +124,17 @@ class FireListFragment : Fragment() {
 
         binding.firelist.layoutManager = LinearLayoutManager(context)
         binding.firelist.adapter = adapter
-//        model.getFireListFromLocal({ updateFireList(it) })
-        model.getFireList({ updateFireList(it) }, binding.districtSpinner.selectedItem.toString())
+
+        setFires()
+    }
+
+    fun setFires() {
+        model.getFireList(
+            { updateFireList(it) },
+            district = binding.districtSpinner.selectedItem.toString(),
+            radius = binding.radiusSlider.value.toInt(),
+            coordinates = Pair(lat, lng)
+        )
     }
 
     private fun onFireClick(fireui: FireUI) {
@@ -129,11 +143,7 @@ class FireListFragment : Fragment() {
 
     private fun onFireLongClick(fireui: FireUI): Boolean {
         Toast.makeText(context, getString(R.string.delete), Toast.LENGTH_SHORT).show()
-        model.deleteFire(fireui.uuid) { model.getFireList(
-            { updateFireList(it) },
-            binding.districtSpinner.selectedItem.toString()
-        )
-        }
+        model.deleteFire(fireui.uuid) {}
         return false
     }
 
@@ -151,13 +161,14 @@ class FireListFragment : Fragment() {
 
                 it.submitter_cc,
 
-                it.timestamp,
                 it.date,
                 it.hour,
-
                 it.lat,
+
                 it.lng,
-                it.man
+                it.man,
+                it.timestamp,
+                it.distance
             )
         }
         CoroutineScope(Dispatchers.Main).launch {
@@ -175,4 +186,15 @@ class FireListFragment : Fragment() {
             binding.noFiresAvailable.visibility = View.VISIBLE
         }
     }
+
+    override fun onLocationChanged(latitude: Double, longitude: Double) {
+        lat = latitude
+        lng = longitude
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        FusedLocation.unregisterListener(this)
+    }
+
 }

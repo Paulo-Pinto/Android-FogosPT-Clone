@@ -76,7 +76,8 @@ class FogosRepository private constructor(
     fun getFireList(
         onFinished: (List<FireUI>) -> Unit,
         district: String = "Portugal",
-        radius: Int = 999
+        radius: Int = 999,
+        coordinates : Pair<Double, Double> = Pair(0.0, 0.0)
     ) {
         // apaga fogos provenientes da api
         local.deleteAPIFires {}
@@ -84,14 +85,13 @@ class FogosRepository private constructor(
         if (ConnectivityUtil.isOnline(context)) {
             remote.getFireList({ fireList ->
                 local.insertFires(fireList) {
-                    local.getFireList(onFinished, district)
+                    local.getFireList(onFinished, district, radius, coordinates)
                 }
-            }, district, radius)
+            }, district, radius, coordinates)
         } else {
-            local.getFireList(onFinished, district)
+            local.getFireList(onFinished, district, radius, coordinates)
         }
     }
-
 
     fun getRisk(
         onFinished: (String) -> Unit,
@@ -103,7 +103,7 @@ class FogosRepository private constructor(
             local.getRisk(onFinished, district)
         }
     }
-
+    // TODO : passar repo para aqui
     companion object {
 
         private var instance: FogosRepository? = null

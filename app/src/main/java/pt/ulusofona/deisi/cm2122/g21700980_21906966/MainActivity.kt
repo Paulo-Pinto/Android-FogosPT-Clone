@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }
-//        Light.start(this)
 
         FogosRepository.init(this,
             FogosRoom(FireDatabase.getInstance(this).fogosDao()),

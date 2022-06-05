@@ -6,8 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.map.FusedLocation
 import retrofit2.*
-import java.lang.Exception
 
 class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
 
@@ -26,15 +26,20 @@ class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
         TODO("Not yet implemented")
     }
 
-    override fun getFireList(onFinished: (List<FireUI>) -> Unit, district: String, radius: Int) {
+    override fun getFireList(
+        onFinished: (List<FireUI>) -> Unit,
+        district: String,
+        radius: Int,
+        coordinates: Pair<Double, Double>
+    ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-//                if(district != "Portugal") {
-//                    val fires = service.getAllByDistrict()
-//                }
                 val fires = service.getAll()
 
                 onFinished(fires.data.map {
+                    val dist = calcDistance(coordinates.first, coordinates.second, it.lat, it.lng)
+                    Log.i("DISTANCE ", "$coordinates, ${it.lat}, ${it.lng} : dist = $dist")
+
                     FireUI(
                         api = true,
                         it.district,
@@ -44,18 +49,46 @@ class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
                         "obs",
                         it.status,
                         "12345678",
-                        0L,
                         it.date,
                         it.hour,
                         it.lat,
                         it.lng,
                         it.man,
+                        distance = dist
                     )
                 })
             } catch (ex: HttpException) {
                 Log.e(TAG, ex.message())
             }
         }
+    }
+
+    private fun calcDistance(
+        lat_start: Double,
+        lng_start: Double,
+        lat_dest: Double,
+        lng_dest: Double
+    ): Int {
+        val theta: Double = lng_start - lng_dest
+
+        var dist = (Math.sin(deg2rad(lat_start))
+                * Math.sin(deg2rad(lat_dest))
+                + (Math.cos(deg2rad(lat_start))
+                * Math.cos(deg2rad(lat_dest))
+                * Math.cos(deg2rad(theta))))
+        dist = Math.acos(dist)
+        dist = rad2deg(dist)
+        dist *= 60 * 1.1515
+
+        return dist.toInt()
+    }
+
+    private fun deg2rad(deg: Double): Double {
+        return deg * Math.PI / 180.0
+    }
+
+    private fun rad2deg(rad: Double): Double {
+        return rad * 180.0 / Math.PI
     }
 
     override fun deleteAPIFires(onFinished: () -> Unit) {

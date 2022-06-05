@@ -21,6 +21,7 @@ import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosViewModel
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Person
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.R
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.map.FusedLocation
 
 class RegisterFireFragment : Fragment() {
 
@@ -91,11 +92,10 @@ class RegisterFireFragment : Fragment() {
             val bm = requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
             val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
             if (batLevel <= 20) {
-                val gray = Color.rgb(127,127,127)
+                val gray = Color.rgb(127, 127, 127)
                 binding.risk.setTextColor(gray)
             }
         }.also { runnable = it }, 2500)
-
     }
 
     private fun updateAttributes(): Boolean {
@@ -189,11 +189,9 @@ class RegisterFireFragment : Fragment() {
                     .show()
             }
         }
-
     }
 
     private fun updateFireList(fires: List<FireUI>) {
-
         fires.map {
             FireUI(
                 it.api,
@@ -208,17 +206,16 @@ class RegisterFireFragment : Fragment() {
 
                 it.submitter_cc,
 
-                it.timestamp,
                 it.date,
                 it.hour,
 
                 it.lat,
                 it.lng,
-                it.man
+
+                it.man,
+                it.timestamp,
+                it.distance
             )
         }
     }
-
 }
-
-// TODO : Register não adiciona à base de dados

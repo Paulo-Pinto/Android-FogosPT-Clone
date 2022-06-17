@@ -10,7 +10,7 @@ abstract class Fogospt {
     abstract fun insertFires(fires: List<FireUI>, onFinished: (List<FireUI>) -> Unit)
     abstract fun getFireList(
         onFinished: (List<FireUI>) -> Unit,
-        district: String = "Portugal",
+        district: String = "Portugal", // DEFESA
         radius: Int = 999,
         coordinates : Pair<Double, Double> = Pair(0.0, 0.0)
     )

@@ -53,9 +53,9 @@ class FireDetailFragment : Fragment() {
             binding.fireState.text = it.status
             binding.firePlace.text = it.location
             binding.fireTimestamp.text = sdf.format(it.timestamp)
-            binding.fireObservations.text = it.obs
+            binding.fireObservations.text = "${it.lat} , ${it.lng}"
             binding.fireResources.text = it.man.toString() + " bombeiros"
-            binding.submitter.text = it.submitter.toString()
+            binding.submitter.text = "${it.submitter_name} ; ${it.submitter_apelido} [${it.submitter_cc}]"
         }
     }
 

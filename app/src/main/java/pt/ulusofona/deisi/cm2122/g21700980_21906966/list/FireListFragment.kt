@@ -166,8 +166,6 @@ class FireListFragment : Fragment(), OnLocationChangedListener {
                 it.obs,
                 it.status,
 
-                it.submitter_cc,
-
                 it.date,
                 it.hour,
                 it.lat,
@@ -175,8 +173,14 @@ class FireListFragment : Fragment(), OnLocationChangedListener {
                 it.lng,
                 it.man,
                 it.timestamp,
-                it.distance
-            )
+                it.distance,
+
+                it.submitter_cc,
+                it.submitter_name,
+                it.submitter_apelido,
+
+                it.sadoId,
+                )
         }
         CoroutineScope(Dispatchers.Main).launch {
             showFireList(fireList.isNotEmpty())

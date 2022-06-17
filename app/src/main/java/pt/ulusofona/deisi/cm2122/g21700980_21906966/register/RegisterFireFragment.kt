@@ -149,6 +149,15 @@ class RegisterFireFragment : Fragment() {
         }
         binding.inputName.background.setTint(black)
 
+        val apelido: String = binding.inputLastName.text.toString()
+        if (apelido == "") {
+            Toast.makeText(context, getString(R.string.last_name_unfilled), Toast.LENGTH_LONG)
+                .show()
+            binding.inputLastName.background.setTint(red)
+            return false
+        }
+        binding.inputLastName.background.setTint(black)
+
         val cc: String = binding.inputCc.text.toString()
         if (cc == "") {
             Toast.makeText(context, getString(R.string.cc_unfilled), Toast.LENGTH_LONG).show()
@@ -161,7 +170,7 @@ class RegisterFireFragment : Fragment() {
         }
         binding.inputCc.background.setTint(black)
 
-        viewModel.setSubmitter(Person(name, cc))
+        viewModel.setSubmitter(Person(cc = cc, name = name, apelido = apelido))
         viewModel.setObservations((binding.inputObs.text.toString()))
         viewModel.setState("Por Confirmar")
         return true
@@ -205,7 +214,7 @@ class RegisterFireFragment : Fragment() {
             "PreConcelho",
             "PreFreguesia"
         )
-        viewModel.setSubmitter(Person("Vincent Aboubakar", "12345678"))
+        viewModel.setSubmitter(Person("12345678","Vincent", "Aboubakar"))
         viewModel.setObservations("Fogo pré-feito")
         viewModel.setRandomState()
 
@@ -230,8 +239,6 @@ class RegisterFireFragment : Fragment() {
                 it.obs,
                 it.status,
 
-                it.submitter_cc,
-
                 it.date,
                 it.hour,
 
@@ -240,8 +247,14 @@ class RegisterFireFragment : Fragment() {
 
                 it.man,
                 it.timestamp,
-                it.distance
-            )
+                it.distance,
+
+                submitter_cc = if (it.submitter_cc != "") it.submitter_cc else "00000000",
+                submitter_name = if (it.submitter_name != "") it.submitter_name else "API NAME",
+                submitter_apelido = if (it.submitter_apelido != "") it.submitter_apelido else "API APELIDO",
+
+                it.sadoId,
+                )
         }
     }
 }

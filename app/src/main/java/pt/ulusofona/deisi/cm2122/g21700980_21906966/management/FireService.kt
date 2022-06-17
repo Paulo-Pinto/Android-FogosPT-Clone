@@ -1,6 +1,7 @@
 package pt.ulusofona.deisi.cm2122.g21700980_21906966.management
 
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 //data class PostOperationRequest(val expression: String, val result: Double, val timestamp: Long)
 //data class PostOperationResponse(val message: String)
@@ -23,6 +24,8 @@ data class ResponseData(
     val man : Int,
 
     val created : HashMap<String, Long>,
+    val sadoId : String,
+
 )
 
 data class GetFiresResponse(

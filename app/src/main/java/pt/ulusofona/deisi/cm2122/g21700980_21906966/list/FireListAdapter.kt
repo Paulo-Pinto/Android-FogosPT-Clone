@@ -30,9 +30,11 @@ class FireListAdapter(
         if (!item.api) {
             holder.binding.fireIcon.setImageResource(R.drawable.ic_fire_blue)
         }
+
         holder.binding.fireId.text = "Fogo em ${item.county}"
         holder.binding.fireState.text = "Estado: ${item.status}"
         holder.binding.firePlace.text = item.location
+        holder.binding.fireSado.text = "sadoID -> ${item.sadoId}"
         holder.itemView.setOnClickListener { onClick(item) }
         holder.itemView.setOnLongClickListener { onLongClick(item) }
     }

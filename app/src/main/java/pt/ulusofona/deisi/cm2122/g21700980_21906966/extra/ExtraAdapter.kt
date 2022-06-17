@@ -29,6 +29,7 @@ class ExtraAdapter(
         holder.binding.fireId.text = "Fogo em ${item.parish} [${item.uuid.take(8)}]"
         holder.binding.fireState.text = "Estado: ${item.status}"
         holder.binding.firePlace.text = item.location
+        holder.binding.fireSado.text = item.sadoId
         holder.itemView.setOnClickListener { onClick(item) }
         holder.itemView.setOnLongClickListener { onLongClick(item) }
     }

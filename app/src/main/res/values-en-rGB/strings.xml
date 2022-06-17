@@ -36,4 +36,7 @@
     <string name="map">Map</string>
     <string name="fire_icon">Fire Icon</string>
     <string name="noRadius">No Radius</string>
+    <string name="latlng">Latitude x Longitude</string>
+    <string name="last_name">Last Name</string>
+    <string name="last_name_unfilled">Last Name Unfilled</string>
 </resources>

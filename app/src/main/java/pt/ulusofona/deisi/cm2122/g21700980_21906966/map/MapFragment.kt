@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -77,8 +78,7 @@ class MapFragment : Fragment(), OnLocationChangedListener {
         updateRisk()
 
         viewmodel.onGetFireList { updateFireList(it) }
-        Handler(Looper.getMainLooper()).postDelayed({ drawFogosOnMap() }, 1000)
-        Handler(Looper.getMainLooper()).postDelayed({ drawMarker(39.74, -8.8, "Leiria Não Existe") }, 2000)
+//        Handler(Looper.getMainLooper()).postDelayed({ drawFogosOnMap() }, 1000)
     }
 
     // RISK
@@ -153,24 +153,24 @@ class MapFragment : Fragment(), OnLocationChangedListener {
     }
 
     private fun drawMarker(latitude: Double, longitude: Double, title: String): Marker? {
-        Log.i("AAAAAAAAA", "AAAAAAA")
         if (this.map != null) {
             val latLng = LatLng(latitude, longitude)
             val markerOptions = MarkerOptions()
             markerOptions.position(latLng)
             markerOptions.title(title)
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-            map!!.addMarker(markerOptions)
-            Log.i("AAAAAAAAA", "$latLng")
+            return map!!.addMarker(markerOptions)
         }
         return null
     }
 
-
     private fun onMarkerClick(marker: Marker) : Boolean {
         for (fire in adapter.getItems()) {
+            Log.i("ONMARKERCLICK", "curr ${fire.uuid}")
             if (fire.uuid == marker.title) {
-                onFireClick(fire)
+//                onFireClick(fire)
+                Log.i("ONMARKERCLICK", "goal ${marker.title}")
+                Toast.makeText(context, "${fire.status}", Toast.LENGTH_SHORT).show()
             }
         }
         return false
@@ -178,13 +178,8 @@ class MapFragment : Fragment(), OnLocationChangedListener {
 
     private fun drawFogosOnMap() {
         for (fire in adapter.getItems()) {
-            Log.i("LAT LNG", "${fire.lat} ${fire.lng}")
-            // replace to Leiria if no lat and lng
-            val marker = if (fire.lat == 0.0 && fire.lng == 0.0) {
-                drawMarker(39.74, -8.8, fire.uuid)
-            } else {
-                drawMarker(fire.lat, fire.lng, fire.uuid)
-            }
+            Log.i("LATLNG", "${fire.lat} ${fire.lng} ${fire.api}")
+            val marker = drawMarker(fire.lat, fire.lng, fire.uuid)
 
             if (marker != null) {
                 map?.setOnMarkerClickListener {

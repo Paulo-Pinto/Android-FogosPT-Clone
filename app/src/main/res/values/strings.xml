@@ -19,12 +19,14 @@
     <string name="input_parish">Freguesia</string>
     <string name="personal">Informação Pessoal</string>
     <string name="name">Nome</string>
+    <string name="last_name">Apelido</string>
     <string name="cc">Cartão de Cidadão</string>
     <!--Errors-->
     <string name="district_unfilled">Distrito por preencher</string>
     <string name="county_unfilled">Concelho por preencher</string>
     <string name="parish_unfilled">Freguesia por preencher</string>
     <string name="name_unfilled">Nome por preencher</string>
+    <string name="last_name_unfilled">Apelido por preencher</string>
     <string name="cc_unfilled">CC por preencher</string>
     <string name="cc_incomplete">CC não tem 8 números</string>
     <!--List-->
@@ -37,6 +39,7 @@
     <string name="place">Localidade</string>
     <string name="registered_at">Registado a</string>
     <string name="obs">Observações</string>
+    <string name="latlng">Latitude x Longitude</string>
     <string name="resources">Recursos</string>
     <string name="submitter">Submetido por</string>
     <!--Extra-->
@@ -47,6 +50,7 @@
 
     <!-- for spinner -->
     <string-array name="districts_array">
+        <item>Faro</item>
         <item>Portugal</item>
         <item>Aveiro</item>
         <item>Beja</item>
@@ -55,12 +59,11 @@
         <item>Castelo Branco</item>
         <item>Coimbra</item>
         <item>Évora</item>
-        <item>Faro</item>
+        <item>Porto</item>
         <item>Guarda</item>
         <item>Leiria</item>
         <item>Lisboa</item>
         <item>Portalegre</item>
-        <item>Porto</item>
         <item>Santarém</item>
         <item>Setúbal</item>
         <item>Viana do Castelo</item>

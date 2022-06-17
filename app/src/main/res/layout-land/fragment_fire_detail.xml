@@ -116,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/obs"
+                android:text="@string/latlng"
                 android:textStyle="bold" />
 
             <TextView

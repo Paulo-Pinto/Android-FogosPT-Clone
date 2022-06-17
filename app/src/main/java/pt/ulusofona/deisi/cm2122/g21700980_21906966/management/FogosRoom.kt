@@ -22,7 +22,7 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
         CoroutineScope(Dispatchers.IO).launch {
             val history = fires.map {
                 Fire(
-                    api = false,
+                    it.api,
 
                     it.district,
                     it.county,
@@ -32,8 +32,6 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
                     it.obs,
                     it.status,
 
-                    it.submitter_cc,
-
                     it.date,
                     it.hour,
 
@@ -42,7 +40,13 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
 
                     it.man,
                     it.timestamp,
-                    it.distance
+                    it.distance,
+
+                    submitter_cc = if (it.submitter_cc != "") it.submitter_cc else "00000000",
+                    submitter_name = if (it.submitter_name != "") it.submitter_name else "no name",
+                    submitter_apelido = if (it.submitter_apelido != "") it.submitter_apelido else "no apelido",
+
+                    it.sadoId,
                 )
             }
             dao.insertAll(history)
@@ -109,8 +113,6 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
                     it.obs,
                     it.status,
 
-                    it.submitter_cc,
-
                     it.date,
                     it.hour,
 
@@ -119,8 +121,14 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
 
                     it.man,
                     it.timestamp,
-                    it.distance
-                )
+                    it.distance,
+
+                    submitter_cc = if (it.submitter_cc != "") it.submitter_cc else "00000000",
+                    submitter_name = if (it.submitter_name != "") it.submitter_name else "API NAME",
+                    submitter_apelido = if (it.submitter_apelido != "") it.submitter_apelido else "API APELIDO",
+
+                    it.sadoId,
+                    )
             })
         }
     }

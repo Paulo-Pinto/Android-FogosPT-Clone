@@ -19,7 +19,7 @@ class FogosRepository private constructor(
     private var county = "placeholder"
     private var parish = "placeholder"
     private var observations = "placeholder observations"
-    private var submitter = Person("Anonymous", "99999999")
+    private var submitter = Person("99999999", "Anonymous","Apelido Anon")
     private var status = "Por Confirmar"
 
     private var api_read = false
@@ -50,7 +50,7 @@ class FogosRepository private constructor(
     }
 
     fun addFire(onFinished: () -> Unit) {
-
+        // registar fogo -> api sempre false
         val fire = Fire(
             api = false,
             district = district,
@@ -62,6 +62,10 @@ class FogosRepository private constructor(
             status = status,
 
             submitter_cc = submitter.getCc(),
+            submitter_name = submitter.getName(),
+            submitter_apelido = submitter.getApelido(),
+
+            sadoId = "LOCAL"
         )
 
         CoroutineScope(Dispatchers.IO).launch {

@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/obs"
+            android:text="@string/latlng"
             android:textStyle="bold" />
 
         <TextView

@@ -19,8 +19,6 @@ data class Fire(
     val obs: String,
     val status: String,
 
-    val submitter_cc: String,
-
     val date: String = "1970",
     val hour: String = "12:00",
 
@@ -31,6 +29,13 @@ data class Fire(
 
     val timestamp: Long = Date().time,
     val distance: Int = 0,
+
+    val submitter_cc: String,
+    val submitter_name: String,
+    val submitter_apelido: String,
+
+    val sadoId : String,
+
     @PrimaryKey val uuid: String = UUID.randomUUID().toString(),
 ) {
 
@@ -50,8 +55,6 @@ data class FireUI(
     val obs: String,
     val status: String,
 
-    val submitter_cc: String,
-
     val date: String = "1970",
     val hour: String = "12:00",
 
@@ -61,9 +64,16 @@ data class FireUI(
 
     val timestamp: Long = Date().time,
     val distance: Int = 0,
+
+    val submitter_cc: String,
+    val submitter_name: String,
+    val submitter_apelido: String,
+
+    val sadoId : String,
+
     val uuid: String = UUID.randomUUID().toString(),
 ) : Parcelable {
 
     @IgnoredOnParcel
-    val submitter: Person = Person(submitter_cc)
+    val submitter: Person = Person(submitter_cc, submitter_name, submitter_apelido)
 }

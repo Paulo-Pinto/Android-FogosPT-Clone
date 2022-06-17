@@ -3,7 +3,6 @@ package pt.ulusofona.deisi.cm2122.g21700980_21906966.map
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Looper
-import android.util.Log
 import com.google.android.gms.location.*
 
 @SuppressLint("MissingPermission")
@@ -37,9 +36,9 @@ class FusedLocation private constructor(context: Context) : LocationCallback() {
     }
 
     override fun onLocationResult(locationResult: LocationResult) {
-        Log.i(TAG, locationResult.lastLocation.toString())
+//        Log.i(TAG, locationResult.lastLocation.toString())
         last_coords =
-            Pair(locationResult.lastLocation.latitude, locationResult.lastLocation.longitude)
+            Pair(locationResult.lastLocation!!.latitude, locationResult.lastLocation!!.longitude)
         notifyListener(locationResult)
     }
 
@@ -63,7 +62,7 @@ class FusedLocation private constructor(context: Context) : LocationCallback() {
         // Se tivermos vários listeners, temos de os notificar com um forEach
         fun notifyListener(locationResult: LocationResult) {
             val location = locationResult.lastLocation
-            listeners.forEach { it.onLocationChanged(location.latitude, location.longitude) }
+            listeners.forEach { it.onLocationChanged(location!!.latitude, location.longitude) }
         }
 
         // Só teremos uma instância em execução

@@ -49,13 +49,20 @@ class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
                         it.location,
                         "obs",
                         it.status,
-                        "12345678",
+
                         it.date,
+
                         it.hour,
                         it.lat,
                         it.lng,
                         it.man,
-                        distance = dist
+                        distance = dist,
+
+                        submitter_cc = "12345678",
+                        submitter_name = "API NAME",
+                        submitter_apelido = "API APELIDO",
+
+                        sadoId = it.sadoId
                     )
                 })
             } catch (ex: HttpException) {

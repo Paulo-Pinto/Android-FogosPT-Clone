@@ -88,6 +88,7 @@ class FireListFragment : Fragment(), OnLocationChangedListener {
 
         }.also { runnable = it }, 0)
     }
+
     override fun onStart() {
         super.onStart()
 

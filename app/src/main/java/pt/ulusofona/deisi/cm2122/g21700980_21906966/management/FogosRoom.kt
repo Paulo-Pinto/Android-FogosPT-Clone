@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.Fire
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
+import kotlin.random.Random
 
 // LOCAL
 class FogosRoom(private val dao: FogosDao) : Fogospt() {
@@ -21,7 +22,7 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
         CoroutineScope(Dispatchers.IO).launch {
             val history = fires.map {
                 Fire(
-                    it.api,
+                    api = false,
 
                     it.district,
                     it.county,
@@ -35,9 +36,10 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
 
                     it.date,
                     it.hour,
-                    it.lat,
 
-                    it.lng,
+                    if (it.lat != 0.0) it.lat else (37.3 + Random.nextDouble() * (41.5 - 37.3)),
+                    if (it.lng != 0.0) it.lng else (-8.37 + Random.nextDouble() * (-7.43 + 8.37)),
+
                     it.man,
                     it.timestamp,
                     it.distance
@@ -70,7 +72,12 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
         }
     }
 
-    override fun getFireList(onFinished: (List<FireUI>) -> Unit, district: String, radius: Int, coordinates : Pair<Double, Double>) {
+    override fun getFireList(
+        onFinished: (List<FireUI>) -> Unit,
+        district: String,
+        radius: Int,
+        coordinates: Pair<Double, Double>
+    ) {
         CoroutineScope(Dispatchers.IO).launch {
             val fires: List<Fire> = if (district == "Portugal") {
                 dao.getAll(radius) // país inteiro
@@ -78,7 +85,18 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
                 dao.getAllByDistrict(district, radius) // distrito
             }
 
-            onFinished(fires.map {
+            // remove duplicates
+            var locations = mutableListOf<String>()
+            var new_fires = mutableListOf<Fire>()
+
+            for(fire in fires){
+                if(!locations.contains(fire.location)){
+                    locations.add(fire.location)
+                    new_fires.add(fire)
+                }
+            }
+
+            onFinished(new_fires.map {
                 Log.i("ROOM API ", " $it + ${it.api}")
                 FireUI(
                     it.api,
@@ -95,9 +113,10 @@ class FogosRoom(private val dao: FogosDao) : Fogospt() {
 
                     it.date,
                     it.hour,
-                    it.lat,
 
-                    it.lng,
+                    if (it.lat != 0.0) it.lat else (37.3 + Random.nextDouble() * (41.5 - 37.3)),
+                    if (it.lng != 0.0) it.lng else (-8.37 + Random.nextDouble() * (-7.43 + 8.37)),
+
                     it.man,
                     it.timestamp,
                     it.distance

@@ -9,6 +9,7 @@ import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 import retrofit2.HttpException
 import retrofit2.Retrofit
 
+// API
 class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
 
     private val TAG = FogosRetrofit::class.java.simpleName
@@ -38,7 +39,7 @@ class FogosRetrofit(retrofit: Retrofit) : Fogospt() {
 
                 onFinished(fires.data.map {
                     val dist = calcDistance(coordinates.first, coordinates.second, it.lat, it.lng)
-                    Log.i("DISTANCE ", "$coordinates, ${it.lat}, ${it.lng} : dist = $dist")
+//                    Log.i("DISTANCE ", "$coordinates, ${it.lat}, ${it.lng} : dist = $dist")
 
                     FireUI(
                         api = true,

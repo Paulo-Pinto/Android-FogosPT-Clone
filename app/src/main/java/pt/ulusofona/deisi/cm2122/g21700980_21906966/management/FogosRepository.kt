@@ -80,9 +80,9 @@ class FogosRepository private constructor(
         coordinates: Pair<Double, Double> = Pair(0.0, 0.0)
     ) {
         // apaga fogos provenientes da api
-        local.deleteAPIFires {}
-
         if (ConnectivityUtil.isOnline(context)) {
+            local.deleteAPIFires {}
+
             remote.getFireList({ fireList ->
                 local.insertFires(fireList) {
                     local.getFireList(onFinished, district, radius, coordinates)

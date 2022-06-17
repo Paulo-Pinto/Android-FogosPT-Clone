@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
@@ -25,12 +26,15 @@ import pt.ulusofona.deisi.cm2122.g21700980_21906966.databinding.FragmentMapBindi
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.fire.FireUI
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.list.FireListAdapter
 import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosRepository
+import pt.ulusofona.deisi.cm2122.g21700980_21906966.management.FogosViewModel
 import java.util.*
 
 class MapFragment : Fragment(), OnLocationChangedListener {
 
     private lateinit var binding: FragmentMapBinding
     private val repo = FogosRepository.getInstance()
+    private var viewmodel = FogosViewModel()
+    private var adapter = FireListAdapter(onClick = ::onFireClick, onLongClick = ::onFireLongClick)
 
     // mapa
     private lateinit var geocoder: Geocoder
@@ -39,8 +43,6 @@ class MapFragment : Fragment(), OnLocationChangedListener {
 
     // risk
     private var runnable: Runnable? = null
-
-    private var adapter = FireListAdapter(onClick = ::onFireClick, onLongClick = ::onFireLongClick)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +62,12 @@ class MapFragment : Fragment(), OnLocationChangedListener {
             FusedLocation.registerListener(this)
         }
 
+        viewmodel = ViewModelProvider(this)[FogosViewModel::class.java]
+        viewmodel.onGetFireList { updateFireList(it) }
+
+        Handler(Looper.getMainLooper()).postDelayed({ drawMarker(39.74, -8.8, "Leiria Não Existe") }, 2000)
+        Handler(Looper.getMainLooper()).postDelayed({ drawFogosOnMap() }, 1000)
+
         return binding.root
     }
 
@@ -68,8 +76,9 @@ class MapFragment : Fragment(), OnLocationChangedListener {
         binding.map.onResume()
         updateRisk()
 
-        repo.getFireList({ updateFireList(it) })
-        Handler(Looper.getMainLooper()).postDelayed({ drawFireOnMap() }, 0)
+        viewmodel.onGetFireList { updateFireList(it) }
+        Handler(Looper.getMainLooper()).postDelayed({ drawFogosOnMap() }, 1000)
+        Handler(Looper.getMainLooper()).postDelayed({ drawMarker(39.74, -8.8, "Leiria Não Existe") }, 2000)
     }
 
     // RISK
@@ -87,7 +96,7 @@ class MapFragment : Fragment(), OnLocationChangedListener {
                 val gray = Color.rgb(127, 127, 127)
                 binding.risk.setTextColor(gray)
             } else {
-                var cor = when (binding.risk.text) {
+                val cor = when (binding.risk.text) {
                     "Reduzido" -> "#4d87e3"
                     "Moderado" -> "#46a112"
                     "Elevado" -> "#f7dd72"
@@ -105,8 +114,9 @@ class MapFragment : Fragment(), OnLocationChangedListener {
     // LOCATION
     override fun onLocationChanged(latitude: Double, longitude: Double) {
         placeCityName(latitude, longitude)
+        drawMarker(latitude, longitude, "Localização atual")
         Handler(Looper.getMainLooper()).postDelayed({
-            placeCamera(latitude, longitude)
+//            placeCamera(latitude, longitude)
         }, 2000)
     }
 
@@ -127,69 +137,59 @@ class MapFragment : Fragment(), OnLocationChangedListener {
     }
 
     // ICONS
-    private fun onFireClick(fireui: FireUI) {
-        NavigationManager.goToFireDetailFragment(parentFragmentManager, fireui)
-    }
-
     private fun onFireLongClick(fireui: FireUI): Boolean {
         return false
     }
 
-    // TODO : get local fires
-    private fun updateFireList(fires: List<FireUI>) {
-        val fireList = fires.map {
-            FireUI(
-                it.api,
-
-                it.district,
-                it.county,
-                it.parish,
-                it.location,
-
-                it.obs,
-                it.status,
-
-                it.submitter_cc,
-
-                it.date,
-                it.hour,
-                it.lat,
-
-                it.lng,
-                it.man,
-                it.timestamp,
-                it.distance
-            )
-        }
-        CoroutineScope(Dispatchers.Main).launch {
-            adapter.updateItems(fireList)
-        }
-    }
-
-    private fun drawMarker(latitude: Double, longitude: Double, tittle: String): Marker? {
-        if (this.map != null) {
-            val latLng = LatLng(latitude, longitude)
-            val markerOptions = MarkerOptions()
-            markerOptions.position(latLng)
-            markerOptions.title(tittle)
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-            map!!.addMarker(markerOptions)
-        }
-
-        return null
-    }
-
-    private fun onMarkerClick(fireui: FireUI): Boolean {
+    private fun onFireClick(fireui: FireUI) : Boolean {
         NavigationManager.goToFireDetailFragment(parentFragmentManager, fireui)
         return false
     }
 
-    private fun drawFireOnMap() {
-        for (fire in adapter.getItems()) {
-            val marker = drawMarker(fire.lat, fire.lng, fire.uuid)
+    private fun updateFireList(fires: List<FireUI>) {
+        CoroutineScope(Dispatchers.Main).launch {
+            adapter.updateItems(fires)
+        }
+    }
 
-            map?.setOnMarkerClickListener {
-                onMarkerClick(fire)
+    private fun drawMarker(latitude: Double, longitude: Double, title: String): Marker? {
+        Log.i("AAAAAAAAA", "AAAAAAA")
+        if (this.map != null) {
+            val latLng = LatLng(latitude, longitude)
+            val markerOptions = MarkerOptions()
+            markerOptions.position(latLng)
+            markerOptions.title(title)
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+            map!!.addMarker(markerOptions)
+            Log.i("AAAAAAAAA", "$latLng")
+        }
+        return null
+    }
+
+
+    private fun onMarkerClick(marker: Marker) : Boolean {
+        for (fire in adapter.getItems()) {
+            if (fire.uuid == marker.title) {
+                onFireClick(fire)
+            }
+        }
+        return false
+    }
+
+    private fun drawFogosOnMap() {
+        for (fire in adapter.getItems()) {
+            Log.i("LAT LNG", "${fire.lat} ${fire.lng}")
+            // replace to Leiria if no lat and lng
+            val marker = if (fire.lat == 0.0 && fire.lng == 0.0) {
+                drawMarker(39.74, -8.8, fire.uuid)
+            } else {
+                drawMarker(fire.lat, fire.lng, fire.uuid)
+            }
+
+            if (marker != null) {
+                map?.setOnMarkerClickListener {
+                    onMarkerClick(marker)
+                }
             }
         }
     }

@@ -1,7 +1,6 @@
 package pt.ulusofona.deisi.cm2122.g21700980_21906966.fire
 
 import android.os.Parcelable
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.IgnoredOnParcel
@@ -25,8 +24,8 @@ data class Fire(
     val date: String = "1970",
     val hour: String = "12:00",
 
-    val lat: Double = 0.0,
-    val lng: Double = 0.0,
+    val lat: Double = 39.74,
+    val lng: Double = 8.80,
 
     val man: Int = 0,
 
@@ -56,8 +55,8 @@ data class FireUI(
     val date: String = "1970",
     val hour: String = "12:00",
 
-    val lat: Double = 0.0,
-    val lng: Double = 0.0,
+    val lat: Double = 39.74,
+    val lng: Double = 8.80,
     val man: Int = 0,
 
     val timestamp: Long = Date().time,
